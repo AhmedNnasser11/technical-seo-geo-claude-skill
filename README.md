@@ -77,7 +77,8 @@ Every issue includes:
 
 | File | Coverage |
 |------|----------|
-| [`SKILL.md`](SKILL.md) | Core skill definition, operating principles, and output format |
+| [`SKILL.md`](SKILL.md) | Core skill definition, live-source protocol, no-skip execution contract, and completion gates |
+| [`source-registry.md`](source-registry.md) | Live source seeds, recursive sub-link verification, and source authority rules |
 | [`semantic-html.md`](semantic-html.md) | Document structure, landmarks, headings, forms |
 | [`accessibility.md`](accessibility.md) | Labels, keyboard, focus, ARIA, WCAG rules |
 | [`metadata.md`](metadata.md) | Titles, meta descriptions, robots directives |
@@ -100,7 +101,7 @@ Every issue includes:
 
 ## 🏛️ Source Authority Hierarchy
 
-The skill follows a strict source hierarchy — it does **not** invent rules beyond its research base:
+The skill uses a strict source hierarchy, but its source base is **live**. The bundled files are a baseline only. Every run refreshes applicable sources, checks updates/release notes, and recursively follows relevant authoritative sub-links before making current recommendations.
 
 1. **Google / W3C / WHATWG / WCAG / Schema.org / Next.js** — Official standards
 2. **MDN** — Trusted reference documentation

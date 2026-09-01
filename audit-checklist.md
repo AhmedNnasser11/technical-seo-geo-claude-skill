@@ -1,77 +1,176 @@
-# Audit Checklist
+# Audit Checklist — Mandatory Execution
 
-## 1) Crawlability and indexability
-- Check whether important pages are accessible via crawlable links.
-- Check robots.txt for accidental blocking.
-- Check canonical tags on duplicate or parameterized URLs.
-- Check sitemap coverage for important URLs.
+This checklist is a completion contract. Every applicable item must receive evidence and a status.
 
-## 2) Semantic structure
-- Check that each page has a single clear `<main>`.
-- Check landmark usage for header, nav, main, aside, article, and footer.
-- Check heading order and the presence of one top-level `<h1>`.
+## Phase 0 — Project and scope discovery
 
-## 3) Accessibility
-- Check labels for every form control.
-- Check keyboard accessibility for every interactive element.
-- Check focus order and visible focus styles.
-- Check alt text for meaningful images.
+- [ ] Identify whether the target is a website, URL, page, repository, or both.
+- [ ] Inspect project structure when source code is available.
+- [ ] Inspect `package.json` and detect framework/library versions.
+- [ ] Detect Next.js App Router vs other routing.
+- [ ] Identify relevant SEO, schema, accessibility, testing, and performance tooling.
 
-## 4) Metadata
-- Check unique page titles.
-- Check unique meta descriptions where useful.
-- Check Open Graph tags for shareable pages.
-- Check that metadata matches page content.
+## Phase 1 — Live source refresh
 
-## 5) Structured data
-- Check JSON-LD is present where the page qualifies.
-- Check required properties and visible-content alignment.
-- Check product, offer, review, aggregate rating, breadcrumb, article, organization, and website markup where appropriate.
-- Validate before and after deployment.
+- [ ] Load `source-registry.md`.
+- [ ] Verify every applicable seed source.
+- [ ] Inspect current changelog / updates / release notes where available.
+- [ ] Follow relevant first-party sub-links recursively.
+- [ ] Record source versions/dates.
+- [ ] Resolve conflicts by authority and recency.
+- [ ] Do not continue with stale assumptions when a current authoritative source is available.
 
-## 6) Internal linking
-- Check that important pages are linked from at least one other page.
-- Check that anchor text is descriptive and contextual.
-- Check breadcrumb visibility and schema alignment.
-- Check for orphan pages.
+## Phase 2 — Crawl and indexability
 
-## 7) Performance
-- Check Core Web Vitals logic: LCP, INP, CLS.
-- Check image sizing, layout stability, and script blocking risks.
-- Check whether the main content appears quickly enough for users and crawlers.
+- [ ] Inspect robots.txt.
+- [ ] Inspect sitemap(s).
+- [ ] Validate sitemap URLs and discoverability.
+- [ ] Inspect canonical URLs.
+- [ ] Check noindex/nofollow directives.
+- [ ] Check HTTP status codes and redirects.
+- [ ] Check important pages are crawlable.
+- [ ] Crawl internal links.
+- [ ] Detect broken internal links.
+- [ ] Detect orphan pages.
+- [ ] Measure important-page crawl depth.
+- [ ] Inspect pagination/faceted navigation where applicable.
 
-## 8) Ecommerce
-- Check product pages for rich detail and current inventory status.
-- Check category pages for unique metadata and strong internal links.
-- Check faceted navigation for duplicate URL handling.
+## Phase 3 — On-page / semantic structure
 
-## 9) GEO / AEO / AI visibility
-- Check answer-first structure.
-- Check entity clarity.
-- Check content chunking and descriptive headings.
-- Check citations and trust signals.
-- Check organization and author signals.
-- Check whether the content is easy to extract as a direct answer.
+- [ ] Validate title and description.
+- [ ] Validate heading hierarchy.
+- [ ] Validate semantic landmarks.
+- [ ] Validate `<main>`, navigation, header/footer usage.
+- [ ] Validate meaningful link text.
+- [ ] Validate image alternatives.
+- [ ] Inspect rendered HTML, not only source JSX, when possible.
 
-## 10) Next.js-specific
-- Check `generateMetadata` or route metadata.
-- Check `sitemap.ts` and `robots.ts`.
-- Check whether important content is rendered in HTML.
-- Check whether rendering strategy matches SEO needs.
+## Phase 4 — Accessibility
 
-## 11) Severity mapping
-- **Critical:** blocks indexing, accessibility, or rendering.
-- **High:** strong impact on ranking, snippets, or AI visibility.
-- **Medium:** structural or performance improvement.
-- **Low:** polish.
-- **Opportunity:** experimental GEO / AI-oriented ideas.
+- [ ] Check form labels.
+- [ ] Check keyboard operation.
+- [ ] Check visible focus.
+- [ ] Check accessible names/roles/states.
+- [ ] Check dialogs/menus/tabs/custom controls.
+- [ ] Check contrast where tooling permits.
+- [ ] Check reduced-motion behavior where relevant.
+- [ ] Check current WCAG guidance applicable to the project.
 
-## 12) Report output
-For every issue, record:
-- Category
-- Severity
-- Why It Matters
-- Impact
-- Fix
-- Example
-- Classification
+## Phase 5 — Metadata / social
+
+- [ ] Check route-level metadata.
+- [ ] Check canonical metadata.
+- [ ] Check robots metadata.
+- [ ] Check Open Graph.
+- [ ] Check Twitter/X card metadata where relevant.
+- [ ] Check localization/hreflang where applicable.
+- [ ] Check duplicate/conflicting metadata.
+
+## Phase 6 — Structured data
+
+- [ ] Identify all applicable Schema.org types.
+- [ ] Validate syntax.
+- [ ] Validate required properties for the applicable Google feature.
+- [ ] Confirm structured data matches visible content.
+- [ ] Check Product / Offer / Breadcrumb / Organization / Article / LocalBusiness types where applicable.
+- [ ] Re-check current Google documentation before calling a schema feature required.
+
+## Phase 7 — Performance
+
+- [ ] Check LCP.
+- [ ] Check INP.
+- [ ] Check CLS.
+- [ ] Inspect image dimensions/loading.
+- [ ] Inspect font loading.
+- [ ] Inspect JavaScript/client boundaries.
+- [ ] Inspect render-blocking work.
+- [ ] Inspect caching/revalidation strategy.
+- [ ] Use current web.dev guidance rather than frozen thresholds.
+
+## Phase 8 — Ecommerce
+
+When applicable:
+
+- [ ] Product pages.
+- [ ] Category/collection pages.
+- [ ] Product variants.
+- [ ] Inventory/availability.
+- [ ] Price/currency consistency.
+- [ ] Faceted navigation.
+- [ ] Internal links.
+- [ ] Breadcrumbs.
+- [ ] Product structured data.
+- [ ] Merchant/search appearance guidance current at audit time.
+
+## Phase 9 — GEO / AEO / AI Search
+
+- [ ] Apply current Google generative-AI guidance first.
+- [ ] Separate official guidance from industry GEO claims.
+- [ ] Check helpful/original content.
+- [ ] Check answer clarity and content structure.
+- [ ] Check entity clarity.
+- [ ] Check source/citation quality where factual claims require evidence.
+- [ ] Check brand/entity consistency.
+- [ ] Treat experimental tactics as experimental.
+- [ ] Do not claim special AI schema unless current official documentation supports it.
+
+## Phase 10 — Next.js
+
+When Next.js is detected:
+
+- [ ] Detect exact Next.js version.
+- [ ] Inspect current version-matched metadata documentation.
+- [ ] Check `metadata` / `generateMetadata`.
+- [ ] Check file-based metadata.
+- [ ] Check sitemap.
+- [ ] Check robots.
+- [ ] Check rendering strategy.
+- [ ] Check server/client boundaries affecting SEO.
+- [ ] Check caching/revalidation behavior.
+- [ ] Check current Next.js release notes for relevant SEO/security changes.
+
+## Phase 11 — Security / hardening
+
+When applicable:
+
+- [ ] Inspect security headers.
+- [ ] Inspect input validation and output encoding.
+- [ ] Inspect authentication/session boundaries.
+- [ ] Inspect CSRF protections where applicable.
+- [ ] Inspect SSRF-sensitive server-side fetches where applicable.
+- [ ] Inspect XSS-sensitive HTML rendering.
+- [ ] Inspect open redirects and URL handling.
+- [ ] Inspect dependency/security advisories when tooling is available.
+- [ ] Use current OWASP and framework guidance.
+
+## Phase 12 — Verification
+
+- [ ] Run lint when available.
+- [ ] Run typecheck when available.
+- [ ] Run build when available.
+- [ ] Run tests when available.
+- [ ] Run link/route checks when available.
+- [ ] Inspect runtime output when possible.
+- [ ] Re-check fixes after modifications.
+- [ ] Do not call a fix verified until the relevant check passes.
+
+## Phase 13 — Final completion gate
+
+Every section must be marked:
+
+`PASS` / `ISSUES_FOUND` / `NOT_APPLICABLE` / `BLOCKED_AFTER_RETRY`
+
+Before final output:
+
+- [ ] No audit section silently skipped.
+- [ ] No required source silently skipped.
+- [ ] Relevant sub-links exhausted.
+- [ ] All findings have evidence.
+- [ ] All findings have sources.
+- [ ] All findings have severity.
+- [ ] All findings have classification.
+- [ ] All blockers have retry/recovery evidence.
+- [ ] Remediation order is complete.
+- [ ] Final report explicitly states verification coverage.
+
+If any checkbox is not satisfied, **continue the audit instead of finalizing**.
