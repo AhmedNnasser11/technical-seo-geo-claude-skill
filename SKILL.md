@@ -140,7 +140,34 @@ Distinguish clearly between:
 - emerging practice;
 - experimental idea.
 
-### 8. DETECT THE ACTUAL STACK
+### 7A. CONTEXT BUDGET / ON-DEMAND REFERENCE LOADING
+
+The bundled reference files are intentionally modular. Do NOT load every `.md` file into context at the start of a run.
+
+Use this loading order:
+1. Read `SKILL.md` and `source-registry.md`.
+2. Inspect the project and determine which audit domains are applicable.
+3. Load only the reference file(s) needed for the domain currently being audited.
+4. After a domain is completed, keep its result in the run ledger instead of retaining the full reference text in active context.
+5. Load additional modules only when a finding, framework version, source conflict, or implementation detail requires them.
+
+The project-local runbook defined below is the compact operational memory for future runs. It MUST be preferred over copying this entire skill into project context.
+
+## 7B. PROJECT-LOCAL RUNBOOK (DURABLE, NEVER AUTO-DELETED)
+
+On first use in a project, create a compact file at `.claude/technical-seo-geo-runbook.md` **only if it does not already exist**.
+
+Rules for this file:
+- It is durable project documentation, not run state.
+- Never overwrite it automatically after creation.
+- Never delete it during ledger cleanup.
+- Keep it short (target: <= 120 lines).
+- It contains only the execution sequence, project-specific decisions, and pointers—not copied reference documentation.
+- Update it only when a project-specific workflow decision is genuinely changed, and preserve existing project-owned content.
+
+The initial runbook content should be the compact step sequence shown in `PROJECT-LOCAL-STEPS.md`.
+
+## 8. DETECT THE ACTUAL STACK
 
 Before applying framework-specific rules:
 
@@ -162,6 +189,18 @@ The agent MUST NOT voluntarily terminate the run because the task is large, many
 ## 9. MANDATORY RUN LEDGER (ANTI-SKIP / ANTI-EARLY-STOP)
 
 Every run MUST maintain an explicit audit ledger in memory or in a temporary working file. The ledger is the execution state machine for the audit; a prose report is not a substitute.
+
+### Run-ledger storage and cleanup (MANDATORY)
+- Do NOT keep a per-run ledger template or run-state file inside the user's project repository.
+- Do NOT create, overwrite, or delete a persistent project file merely to track the current run.
+- Store run state only in a temporary run directory outside the repository, for example `$TMPDIR/technical-seo-geo/<run-id>/`.
+- The temporary directory MUST be unique per run.
+- On normal completion, delete the temporary run directory.
+- On a crash/interruption, a subsequent run MUST clean up stale `technical-seo-geo/*` temp run directories before starting a new run.
+- Never delete user project files, `.git`, `context/`, `.claude/`, or any other persistent project content as part of ledger cleanup.
+- The old bundled `run-ledger-template.md` is intentionally NOT required and MUST NOT be installed into the project.
+
+This separation is deliberate: the project keeps only durable instructions; transient execution state never pollutes the repository or inflates future context.
 
 The ledger MUST contain at least:
 
@@ -313,6 +352,20 @@ When changing code/configuration:
 - keep diffs focused and reviewable;
 - run the narrowest relevant validation first, then the full available validation suite.
 
+## 14A. CHANGE VISIBILITY / GIT SAFETY
+
+When the task requests code/configuration changes:
+
+1. Before editing, inspect `git status --short` and the relevant file history when available.
+2. Make focused changes; do not hide changes in generated or temporary files.
+3. After editing, run `git diff --` on every changed project file and verify the intended diff is actually present.
+4. Confirm no required change exists only inside the temporary run directory or inside the skill package itself.
+5. Run relevant validation after the diff check.
+6. At the end, report the exact changed project files and summarize the meaningful diff.
+7. Never run destructive cleanup commands against the repository to clean audit state.
+
+A successful tool call does not prove that a persistent project change exists; the final verification must inspect the repository diff.
+
 ## 15. FALSE-CONFIDENCE GUARDRAILS
 
 The agent MUST NOT claim:
@@ -438,7 +491,7 @@ The bundled reference files are implementation guidance and a fallback baseline.
 ## File map
 
 - `source-registry.md` — live source seeds, authority hierarchy, recursive source verification
-- `run-ledger-template.md` — per-run execution ledger and finalization invariant
+- `PROJECT-LOCAL-STEPS.md` — compact steps to install into `.claude/technical-seo-geo-runbook.md`; persistent and never auto-deleted
 - `semantic-html.md` — document structure, landmarks, headings, forms
 - `accessibility.md` — labels, keyboard, focus, ARIA, WCAG usage
 - `metadata.md` — titles, meta descriptions, robots directives in metadata

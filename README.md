@@ -12,7 +12,8 @@ This skill is designed to prevent silent omissions. On every run it:
 
 - refreshes applicable authoritative sources from the web;
 - follows relevant official sub-links recursively until the relevant source frontier is exhausted;
-- maintains a mandatory execution ledger for every audit domain;
+- maintains a mandatory per-run execution ledger without persisting run state in the project repository;
+- uses a compact project-local runbook to reduce future context usage;
 - retries failed operations and continues independent work;
 - cannot finalize while required domains remain pending;
 - requires evidence for findings and post-fix verification when remediation is requested.
@@ -90,7 +91,9 @@ Every issue includes:
 
 | File | Coverage |
 |------|----------|
-| [`SKILL.md`](SKILL.md) | Core skill definition, live-source protocol, no-skip execution contract, and completion gates |
+| [`SKILL.md`](SKILL.md) | Core skill definition, live-source protocol, no-skip execution contract, context controls, and completion gates |
+| [`PROJECT-LOCAL-STEPS.md`](PROJECT-LOCAL-STEPS.md) | Compact steps for the persistent project-local runbook |
+| [`CHANGELOG.md`](CHANGELOG.md) | Versioned hardening/change summary |
 | [`source-registry.md`](source-registry.md) | Live source seeds, recursive sub-link verification, and source authority rules |
 | [`semantic-html.md`](semantic-html.md) | Document structure, landmarks, headings, forms |
 | [`accessibility.md`](accessibility.md) | Labels, keyboard, focus, ARIA, WCAG rules |
@@ -154,6 +157,12 @@ Run an accessibility audit on my checkout flow.
 - **The skill deduplicates** overlapping rules across files before flagging issues, so you won't see redundant findings.
 
 ---
+
+## 🔒 Persistence & Context Safety
+
+The skill does **not** install a persistent per-run ledger into the project. Runtime ledger state belongs in a unique temporary directory outside the repository and is cleaned up after the run. The optional `.claude/technical-seo-geo-runbook.md` is durable project documentation: it is created only when absent and is never automatically overwritten or deleted.
+
+Reference modules are loaded on demand to avoid unnecessarily filling Claude's context window.
 
 ## 📄 License
 
