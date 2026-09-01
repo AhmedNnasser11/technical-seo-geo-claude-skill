@@ -66,7 +66,7 @@ A category cannot be silently omitted.
 
 ### 4. COMPLETION GATE
 
-Before producing the final report, run a completion check.
+Before producing the final report, run a completion check against the mandatory run ledger. The report is generated only from terminal ledger states.
 
 Required gates:
 
@@ -154,6 +154,183 @@ Before applying framework-specific rules:
 - detect testing/build tooling.
 
 Apply the latest rules appropriate to the detected versions. Do not force Next.js rules onto a non-Next.js project.
+
+## 8A. NO-VOLUNTARY-STOP RULE
+
+The agent MUST NOT voluntarily terminate the run because the task is large, many issues have already been found, one tool failed, or a plausible report can already be produced. Continue all independent work and return to blocked work before finalization. If an external constraint truly prevents completion, record the exact constraint, completed coverage, recovery attempts, and remaining unverified items rather than implying completion.
+
+## 9. MANDATORY RUN LEDGER (ANTI-SKIP / ANTI-EARLY-STOP)
+
+Every run MUST maintain an explicit audit ledger in memory or in a temporary working file. The ledger is the execution state machine for the audit; a prose report is not a substitute.
+
+The ledger MUST contain at least:
+
+| ID | Domain | Required? | Source status | Audit status | Evidence | Recovery status |
+|---|---|---:|---|---|---|---|
+| D1 | Live source refresh | yes | pending/verified/blocked | pending/pass/issues/blocked | URL(s) | attempts |
+| D2 | Crawl/indexability | yes | ... | ... | ... | ... |
+| D3 | Semantic HTML | yes | ... | ... | ... | ... |
+| D4 | Accessibility | yes | ... | ... | ... | ... |
+| D5 | Metadata/social | yes | ... | ... | ... | ... |
+| D6 | Structured data | yes | ... | ... | ... | ... |
+| D7 | Sitemap/robots/canonical | yes | ... | ... | ... | ... |
+| D8 | Internal links | yes | ... | ... | ... | ... |
+| D9 | Performance/CWV | yes | ... | ... | ... | ... |
+| D10 | Ecommerce | conditional | ... | ... | ... | ... |
+| D11 | GEO/AEO/AI search | yes | ... | ... | ... | ... |
+| D12 | Next.js | conditional | ... | ... | ... | ... |
+| D13 | Security/hardening | conditional | ... | ... | ... | ... |
+| D14 | Validation gates | yes | ... | ... | ... | ... |
+
+Rules:
+
+1. A domain starts as `pending` and cannot be considered complete without an explicit terminal status.
+2. `pending`, `in_progress`, `TODO`, `SKIP`, `unknown`, and blank are non-terminal states and forbid finalization.
+3. If work is interrupted by an error, timeout, rate limit, missing dependency, or tool failure, mark the affected item `BLOCKED_AFTER_RETRY` only after recovery attempts are exhausted; continue all independent domains first, then retry the blocked item again.
+4. The agent MUST NOT mark a whole domain `PASS` because a subset of checks passed.
+5. If an item is not applicable, attach concrete evidence for why it is not applicable.
+6. Before final output, every required ledger row must be terminal and every conditional row must be explicitly marked `NOT_APPLICABLE` or audited.
+7. The final report MUST be generated from the ledger, not from memory or intuition.
+
+### Ledger completion invariant
+
+`FINALIZABLE = all(required items are terminal) AND all findings have evidence AND all mandatory source refreshes are terminal AND all applicable validations have explicit results`.
+
+If `FINALIZABLE = false`, do not produce the final audit report. Continue execution or report the exact blocker only after all allowed recovery paths have been exhausted.
+
+## 10. MANDATORY LIVE-SOURCE EXPIRY / FRESHNESS RULE
+
+"Latest" means latest authoritative information discoverable at runtime, not latest information known by the model and not latest bundled markdown.
+
+For each applicable source family:
+
+1. Open the seed/current page.
+2. Read its last-updated/publication/version information when available.
+3. Inspect the official change log, updates page, release notes, history, or version index.
+4. Follow relevant first-party links recursively.
+5. Re-check the current source after following newer references when the older page points to them.
+6. Record the selected authoritative version/date in the ledger.
+
+Never hardcode a current framework version, Core Web Vitals threshold, structured-data feature, accessibility status, or Google Search behavior into the final recommendation without runtime verification.
+
+### Source freshness precedence
+
+When multiple pages cover the same rule, choose in this order:
+
+1. Current normative specification / official documentation for the detected version.
+2. Current official release/changelog/security advisory.
+3. Current official implementation guide.
+4. Secondary documentation only when first-party sources do not cover the issue.
+5. Industry/marketing sources for supplementary or experimental practices only.
+
+A newer draft does NOT automatically override an existing finalized recommendation. Record standards status (`Recommendation`, `Working Draft`, `Deprecated`, etc.) and apply the appropriate normative authority.
+
+## 11. RECURSIVE SUB-LINK VERIFICATION — WITH A REAL STOP CONDITION
+
+The recursive crawl MUST be breadth/depth safe and complete for relevant authoritative links.
+
+For every source node, inspect links whose destination could change an audit rule, including:
+
+- standards/specifications;
+- API references;
+- versioned documentation;
+- migration guides;
+- changelogs and release notes;
+- security advisories;
+- deprecation notices;
+- validation requirements/tools;
+- official examples that define behavior;
+- official Google Search feature documentation;
+- official framework/library compatibility documentation.
+
+Use a visited-set keyed by normalized URL. Do not count duplicate query-string variants as new evidence unless the query changes the document content or version.
+
+A source family is exhausted only when:
+
+`frontier == empty`
+
+where `frontier` contains all newly discovered, relevant, authoritative links not yet inspected.
+
+Do NOT use a fixed crawl-depth such as "follow 2 levels" as the completion criterion.
+
+Do NOT crawl unrelated navigation, ads, comments, social links, or generic marketing content merely to claim deeper crawling.
+
+For every source family, record:
+- seed URL;
+- visited URLs;
+- relevant links followed;
+- links intentionally rejected as irrelevant (brief reason);
+- source/version selected for each audited rule;
+- whether the family reached an empty relevant frontier.
+
+## 12. FIX / REMEDIATION LOOP (WHEN THE TASK REQUESTS CHANGES)
+
+When the user asks the skill to fix or improve the project, auditing alone is incomplete.
+
+After discovering issues:
+
+1. Group findings by root cause.
+2. Apply the safest minimal change that satisfies the current authoritative rule.
+3. Prefer framework-native and documented solutions over custom workarounds.
+4. Re-run the affected static/runtime checks.
+5. Re-audit the changed surface.
+6. Check for regressions in adjacent routes/components.
+7. Update the ledger finding from `OPEN` to `FIXED_VERIFIED` only after evidence supports the fix.
+8. If the fix cannot be safely verified, keep it open or blocked; never label it fixed based only on code inspection.
+
+Never stop after the first successful fix. Continue until all requested and applicable findings have terminal verification states.
+
+## 13. COMMAND / TOOL FAILURE MATRIX
+
+A failed command is evidence about the command, not evidence that the audited condition passes.
+
+For each failed operation record:
+- command/tool;
+- exit/error;
+- attempted recovery;
+- alternative command/tool/source;
+- final disposition.
+
+Examples:
+
+- `npm` command unavailable → inspect package manager files and use the detected package manager or `corepack` path.
+- Browser audit unavailable → use static HTML plus HTTP/source checks; mark browser-only assertions as blocked if they cannot be established.
+- Network fetch fails → retry, then use an authoritative mirror/version index if one exists; do not silently fall back to stale bundled guidance.
+- One URL fails → continue crawling independent URLs and return to the failed URL later.
+- Build fails because of an unrelated pre-existing issue → distinguish the pre-existing blocker from the SEO finding; still complete all independent audits.
+
+The agent MUST continue independent work after a failure. A single failed tool call is never a valid reason to terminate the entire audit.
+
+## 14. MODIFICATION SAFETY RULES
+
+When changing code/configuration:
+
+- preserve existing project conventions unless they conflict with authoritative requirements;
+- do not invent unsupported SEO tags, schema types, or AI-specific metadata;
+- do not add security controls that break legitimate application behavior without documenting compatibility impact;
+- do not weaken security, accessibility, caching, or indexability just to make a check pass;
+- do not rewrite unrelated files merely for formatting;
+- keep diffs focused and reviewable;
+- run the narrowest relevant validation first, then the full available validation suite.
+
+## 15. FALSE-CONFIDENCE GUARDRAILS
+
+The agent MUST NOT claim:
+
+- "all links are valid" after checking only a sitemap;
+- "accessible" after running only an automated scanner;
+- "Core Web Vitals pass" without an actual measurement or clearly labeled code-risk assessment;
+- "Google ranking factor" for unsupported or speculative GEO/AEO advice;
+- "AI visibility guaranteed" from metadata, llms.txt, schema, or similar tactics;
+- "secure" from headers alone;
+- "schema valid" merely because JSON parses.
+
+Use explicit evidence levels:
+- `OBSERVED` — directly measured/inspected.
+- `VERIFIED` — observed and independently validated.
+- `INFERRED` — logically inferred from code/config; not runtime-proven.
+- `UNVERIFIED` — insufficient evidence.
+- `BLOCKED` — verification could not be completed after recovery attempts.
 
 ## Audit behavior
 
@@ -261,6 +438,7 @@ The bundled reference files are implementation guidance and a fallback baseline.
 ## File map
 
 - `source-registry.md` — live source seeds, authority hierarchy, recursive source verification
+- `run-ledger-template.md` — per-run execution ledger and finalization invariant
 - `semantic-html.md` — document structure, landmarks, headings, forms
 - `accessibility.md` — labels, keyboard, focus, ARIA, WCAG usage
 - `metadata.md` — titles, meta descriptions, robots directives in metadata

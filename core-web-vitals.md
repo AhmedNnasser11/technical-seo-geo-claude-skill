@@ -1,5 +1,8 @@
 # Core Web Vitals
 
+> **Runtime freshness rule:** This reference is a baseline only. Before using any rule from this file, the agent MUST refresh and verify the applicable authoritative source(s) listed in `source-registry.md`, including current updates/changelogs and relevant first-party sub-links.
+
+
 ## Scope
 
 This file covers performance targets and page experience guidance from the report.

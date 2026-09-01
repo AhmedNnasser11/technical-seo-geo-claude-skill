@@ -1,10 +1,23 @@
 # 🔍 Technical SEO & GEO — Claude Code Skill
 
-> **An automated auditor skill for Claude Code** that performs comprehensive Technical SEO, Accessibility, Structured Data, and Generative Engine Optimization (GEO) audits on any website, page, or codebase.
+> **A live audit + remediation skill for Claude Code** that performs comprehensive Technical SEO, Accessibility, Structured Data, Performance, Security, and GEO/AEO audits on websites and codebases, while refreshing authoritative guidance at runtime.
 
 Give Claude this skill and it will analyze your code or website against **60+ rules** sourced from official standards (Google, W3C, WCAG, Schema.org) and industry best practices, then produce a scored audit report with prioritized, actionable fixes.
 
 ---
+
+## 🔒 Execution Guarantees
+
+This skill is designed to prevent silent omissions. On every run it:
+
+- refreshes applicable authoritative sources from the web;
+- follows relevant official sub-links recursively until the relevant source frontier is exhausted;
+- maintains a mandatory execution ledger for every audit domain;
+- retries failed operations and continues independent work;
+- cannot finalize while required domains remain pending;
+- requires evidence for findings and post-fix verification when remediation is requested.
+
+The bundled markdown files are a baseline, **never the runtime source of truth**. Current Google Search guidance, current Next.js version documentation/release notes, current W3C accessibility status, current OWASP guidance, and current Schema.org releases take precedence according to the source hierarchy.
 
 ## ⚡ Quick Start
 
@@ -83,7 +96,7 @@ Every issue includes:
 | [`accessibility.md`](accessibility.md) | Labels, keyboard, focus, ARIA, WCAG rules |
 | [`metadata.md`](metadata.md) | Titles, meta descriptions, robots directives |
 | [`open-graph.md`](open-graph.md) | OG tags and social metadata |
-| [`schema.md`](schema.md) | Structured data rules and validation (JSON-LD, Product, Breadcrumb, FAQ) |
+| [`schema.md`](schema.md) | Structured data rules and validation (JSON-LD, Product, Breadcrumb, feature-specific structured data) |
 | [`sitemap.md`](sitemap.md) | Sitemap.xml strategy and coverage |
 | [`robots.md`](robots.md) | robots.txt crawl control and indexability |
 | [`canonical.md`](canonical.md) | Canonicalization and duplicate URL handling |

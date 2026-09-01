@@ -10,6 +10,47 @@ This checklist is a completion contract. Every applicable item must receive evid
 - [ ] Detect Next.js App Router vs other routing.
 - [ ] Identify relevant SEO, schema, accessibility, testing, and performance tooling.
 
+
+## Phase 0A — Mandatory execution ledger
+
+- [ ] Create the run ledger with one row per audit domain.
+- [ ] Initialize all rows to `pending`.
+- [ ] Do not finalize while any row is non-terminal.
+- [ ] Record evidence and recovery attempts for every blocked item.
+- [ ] Generate the final report from terminal ledger states.
+
+## Phase 1A — Source graph exhaustion
+
+- [ ] Normalize and deduplicate source URLs.
+- [ ] Inspect current update/changelog/version history.
+- [ ] Extract relevant authoritative child links.
+- [ ] Follow newer specs, API references, migrations, deprecations, security advisories, and validation docs.
+- [ ] Continue until the relevant source frontier is empty.
+- [ ] Record rejected irrelevant links and why they were rejected.
+- [ ] Record the selected source/version for each rule family.
+
+## Phase 12A — Failure recovery
+
+For every failed tool/command/source:
+
+- [ ] Record the error.
+- [ ] Retry the operation where appropriate.
+- [ ] Try an equivalent authoritative path.
+- [ ] Continue independent checks.
+- [ ] Return to the failed item before finalization.
+- [ ] Mark `BLOCKED_AFTER_RETRY` only after documented recovery attempts.
+
+## Phase 12B — Fix and re-verification
+
+When the task asks for remediation:
+
+- [ ] Group issues by root cause.
+- [ ] Apply the smallest safe documented fix.
+- [ ] Re-run affected checks.
+- [ ] Re-audit the changed surface.
+- [ ] Check adjacent routes/components for regression.
+- [ ] Mark a finding `FIXED_VERIFIED` only with post-fix evidence.
+
 ## Phase 1 — Live source refresh
 
 - [ ] Load `source-registry.md`.
@@ -163,6 +204,8 @@ Every section must be marked:
 Before final output:
 
 - [ ] No audit section silently skipped.
+- [ ] No ledger row remains `pending`, `in_progress`, or `unknown`.
+- [ ] No required source family has a non-empty relevant frontier.
 - [ ] No required source silently skipped.
 - [ ] Relevant sub-links exhausted.
 - [ ] All findings have evidence.

@@ -1,5 +1,8 @@
 # Next.js SEO
 
+> **Runtime freshness rule:** This reference is a baseline only. Before using any rule from this file, the agent MUST refresh and verify the applicable authoritative source(s) listed in `source-registry.md`, including current updates/changelogs and relevant first-party sub-links.
+
+
 ## Scope
 
 This file covers the report-backed Next.js guidance: metadata, sitemaps, robots, and rendering strategy.
@@ -9,7 +12,7 @@ This file covers the report-backed Next.js guidance: metadata, sitemaps, robots,
 ### 1) Use `generateMetadata` or route metadata objects per page
 - **Rule name:** Next.js metadata API
 - **Description:** Use the Next.js Metadata API to set titles, descriptions, Open Graph data, and canonical hints per route.
-- **Source URL:** https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+- **Source URL:** https://nextjs.org/docs/app/api-reference/functions/generate-metadata
 - **Source organization:** Next.js
 - **Source type:** Official documentation
 - **Classification:** Official Standard
@@ -46,8 +49,8 @@ This file covers the report-backed Next.js guidance: metadata, sitemaps, robots,
 
 ### 3) Prefer static generation or ISR when possible
 - **Rule name:** SEO-safe rendering
-- **Description:** Static generation and ISR are preferred when they fit the content model.
-- **Source URL:** https://developers.google.com/search/docs/appearance/title-link
+- **Description:** Use the rendering and caching strategy that fits the content model and exposes important content reliably; do not treat static/ISR as a universal SEO requirement.
+- **Source URL:** https://nextjs.org/docs/app/building-your-application/rendering
 - **Source organization:** Google Search Central
 - **Source type:** Official documentation
 - **Classification:** Official Standard

@@ -1,5 +1,8 @@
 # GEO
 
+> **Runtime freshness rule:** This reference is a baseline only. Before using any rule from this file, the agent MUST refresh and verify the applicable authoritative source(s) listed in `source-registry.md`, including current updates/changelogs and relevant first-party sub-links.
+
+
 ## Scope
 
 This file covers report-backed Generative Engine Optimization practices.
@@ -118,7 +121,7 @@ This file covers report-backed Generative Engine Optimization practices.
 - **Exceptions:** Small non-branded sites may have lighter entity signals.
 - **Potential drawbacks:** Inaccurate entity data can confuse systems.
 - **Conflicting opinions:** None in the report.
-- **Notes:** The report connects entity presence to AI visibility.
+- **Notes:** Treat this as an emerging industry practice unless current first-party documentation provides stronger support.
 
 ### 7) Keep multimodal support descriptive
 - **Rule name:** Multimodal support
@@ -141,8 +144,8 @@ This file covers report-backed Generative Engine Optimization practices.
 
 ### 8) Do not treat llms.txt as a Google Search visibility lever
 - **Rule name:** llms.txt limitation
-- **Description:** The report says Google clarified that llms.txt has no effect on Google Search visibility.
-- **Source URL:** https://developers.google.com/search/updates#removing-faq-rich-result
+- **Description:** Google Search Central clarified in its June 2026 documentation updates that llms.txt is not needed for Google Search and does not positively or negatively affect Google Search visibility.
+- **Source URL:** https://developers.google.com/search/updates
 - **Source organization:** Google Search Central
 - **Source type:** Official documentation update
 - **Classification:** Experimental
