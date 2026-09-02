@@ -1,3 +1,7 @@
+# Migration note — Source Refresh Hard Gate
+
+Version 2.0.1 tightens source freshness semantics. Existing source graph nodes may remain useful as historical/navigation metadata, but they do not satisfy current-run freshness on their own. On the next run, each applicable source family must obtain external retrieval evidence or be marked `BLOCKED_AFTER_RETRY` when no external source tool is available.
+
 # Migration Notes
 
 ## From the previous package

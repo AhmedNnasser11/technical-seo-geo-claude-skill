@@ -123,20 +123,40 @@ Allowed terminal alternatives for a finding are `BLOCKED_AFTER_RETRY` and `ACCEP
 
 A finding in `FIXED` is not verified. Only `VERIFIED` permits a final statement that the defect was resolved.
 
-## 6. Source freshness and recursive discovery
+## 6. Source freshness and recursive discovery — HARD EXTERNAL-FETCH GATE
+
+**Reading `source-registry.json`, `KNOWLEDGE-INDEX.md`, a runbook, cached notes, or prior findings is NOT source refresh.** A source-refresh pass is complete only when the canonical source URL has been externally retrieved during the current run and reproducible retrieval evidence has been recorded.
+
+### 6.1 Required tool capability
+
+Before marking `SOURCE_REFRESH` complete, detect whether the execution environment exposes an external web/document retrieval capability (for example Claude `WebFetch`, `WebSearch`, an approved HTTP fetch tool, or an equivalent connected source reader).
+
+- If an external retrieval tool exists: use it.
+- If it does not exist: **do not mark `SOURCE_REFRESH` as PASS**. Mark source-refresh as `BLOCKED_AFTER_RETRY` with an explicit reason such as `NO_EXTERNAL_SOURCE_TOOL_AVAILABLE`, continue all non-dependent local audit work, and do not present bundled source metadata as freshly verified.
+- A tool name being mentioned in instructions is not evidence that the tool is actually available. Verify availability by invoking/inspecting the real tool surface.
+
+### 6.2 Per-source-family hard gate
 
 For every applicable source family:
 
 1. load the family definition from `source-registry.json`;
 2. determine the minimum authority level needed for the claim;
-3. open the canonical seed/current page;
-4. inspect update/changelog/release/deprecation/migration pages when available;
-5. inspect relevant linked standards/API/reference/validation pages;
-6. enqueue relevant authoritative children;
-7. normalize and deduplicate URLs;
-8. continue until the **relevant frontier is empty**;
-9. record rejected/unfollowed links when they were materially considered;
-10. record why traversal stopped for each frontier node.
+3. externally retrieve the canonical seed/current page;
+4. record a source retrieval evidence record containing at minimum: source URL, retrieval method/tool, checked timestamp, HTTP/result status when available, and a concise extracted claim or page fingerprint;
+5. inspect update/changelog/release/deprecation/migration pages when available;
+6. inspect relevant linked standards/API/reference/validation pages;
+7. enqueue relevant authoritative children;
+8. normalize and deduplicate URLs;
+9. continue until the **relevant frontier is empty**;
+10. record rejected/unfollowed links when they were materially considered;
+11. record why traversal stopped for each frontier node;
+12. update the source graph only from the retrieval evidence, not merely from the registry.
+
+A source node may retain prior `last_checked` metadata, but that metadata MUST NOT be treated as this run's freshness evidence unless a current retrieval record exists.
+
+### 6.3 Freshness completion rule
+
+`SOURCE_REFRESH = PASS` requires: every applicable source family has at least one successful current-run external retrieval for its required seed set, plus any version/security/update pages required by the detected stack. If any mandatory family lacks current-run retrieval evidence, the phase cannot be PASS.
 
 Do not use a fixed crawl depth as the completion condition. Use relevance, authority, and frontier exhaustion.
 
@@ -159,6 +179,20 @@ When sources conflict:
 5. record the losing claim and conflict resolution in the run evidence/source graph.
 
 Never silently merge contradictory rules.
+
+## 6.4 Anti-false-pass rule
+
+The execution ledger MUST NOT transition `SOURCE_REFRESH` to `complete`/`PASS` merely because:
+
+- source nodes already exist;
+- source URLs parse successfully;
+- the runbook says the source is current;
+- a previous run checked the source;
+- a model recalls the documentation;
+- local files quote or summarize the source; or
+- a domain audit can proceed without external research.
+
+Only current-run external retrieval evidence can satisfy the freshness gate.
 
 ## 7. Audit planning and domain dispatch
 

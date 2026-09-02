@@ -1,3 +1,11 @@
+## 2.0.1 — Source Refresh Hard Gate
+
+- Added a hard external-retrieval gate for SOURCE_REFRESH.
+- Reading local registries/runbooks no longer qualifies as live source refresh.
+- Added explicit `NO_EXTERNAL_SOURCE_TOOL_AVAILABLE` blocked state.
+- Added current-run retrieval evidence requirements and anti-false-pass rules.
+- Extended source graph nodes with retrieval state so freshness cannot be inferred from stale timestamps alone.
+
 # Changelog
 
 ## 2.0.0 — Production architecture

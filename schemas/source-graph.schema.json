@@ -1,17 +1,201 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "$id":"https://example.invalid/technical-seo-geo/source-graph.schema.json",
-  "title":"Technical SEO GEO Source Graph",
-  "type":"object",
-  "required":["schema_version","nodes","edges"],
-  "properties":{
-    "schema_version":{"type":"string"},
-    "nodes":{"type":"array","items":{"$ref":"#/$defs/node"}},
-    "edges":{"type":"array","items":{"type":"object","required":["from","to","relation"],"properties":{
-      "from":{"type":"string"},"to":{"type":"string"},"relation":{"enum":["child","version-of","supersedes","changelog-for","migration-for","validates","related"]},"evidence_ids":{"type":"array","items":{"type":"string"}}
-    },"additionalProperties":false}}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/technical-seo-geo/source-graph.schema.json",
+  "title": "Technical SEO GEO Source Graph",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "nodes",
+    "edges"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/node"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "relation"
+        ],
+        "properties": {
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "relation": {
+            "enum": [
+              "child",
+              "version-of",
+              "supersedes",
+              "changelog-for",
+              "migration-for",
+              "validates",
+              "related"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
   },
-  "$defs":{"node":{"type":"object","required":["id","url","description","retrieval_hint","authority_tier","source_type","scope","freshness","status","last_checked"],"properties":{
-    "id":{"type":"string"},"url":{"type":"string","format":"uri"},"title":{"type":"string"},"description":{"type":"string"},"retrieval_hint":{"type":"string"},"authority_tier":{"type":"integer","minimum":1,"maximum":4},"source_type":{"enum":["STANDARD","FIRST_PARTY_DOC","RELEASE","SECURITY_ADVISORY","CHANGELOG","REFERENCE","SECONDARY","EXPERIMENTAL"]},"scope":{"type":"array","items":{"type":"string"}},"version":{"type":"string"},"updated_at":{"type":"string"},"last_checked":{"type":"string"},"freshness":{"enum":["FRESH","RECHECK_REQUIRED","STALE","SUPERSEDED","UNAVAILABLE"]},"status":{"enum":["ACTIVE","SUPERSEDED","UNAVAILABLE","REJECTED"]},"conclusions":{"type":"array","items":{"type":"string"}},"claims_supported":{"type":"array","items":{"type":"string"}},"claims_not_supported":{"type":"array","items":{"type":"string"}},"content_hash":{"type":"string"},"evidence_ids":{"type":"array","items":{"type":"string"}}
-  },"additionalProperties":false}}
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": [
+        "authority_tier",
+        "description",
+        "freshness",
+        "id",
+        "last_checked",
+        "retrieval_hint",
+        "retrieval_state",
+        "scope",
+        "source_type",
+        "status",
+        "url"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "retrieval_hint": {
+          "type": "string"
+        },
+        "authority_tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "source_type": {
+          "enum": [
+            "STANDARD",
+            "FIRST_PARTY_DOC",
+            "RELEASE",
+            "SECURITY_ADVISORY",
+            "CHANGELOG",
+            "REFERENCE",
+            "SECONDARY",
+            "EXPERIMENTAL"
+          ]
+        },
+        "scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "last_checked": {
+          "type": "string"
+        },
+        "freshness": {
+          "enum": [
+            "FRESH",
+            "RECHECK_REQUIRED",
+            "STALE",
+            "SUPERSEDED",
+            "UNAVAILABLE"
+          ],
+          "description": "FRESH is valid for the current run only when retrieval_state.current_run_retrieved=true and retrieval_evidence_ids is non-empty."
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "SUPERSEDED",
+            "UNAVAILABLE",
+            "REJECTED"
+          ]
+        },
+        "conclusions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "claims_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "claims_not_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content_hash": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "retrieval_state": {
+          "type": "object",
+          "required": [
+            "current_run_retrieved",
+            "retrieval_evidence_ids"
+          ],
+          "properties": {
+            "current_run_retrieved": {
+              "type": "boolean"
+            },
+            "retrieval_evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "retrieval_method": {
+              "type": "string"
+            },
+            "retrieved_at": {
+              "type": "string"
+            },
+            "result_status": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }
