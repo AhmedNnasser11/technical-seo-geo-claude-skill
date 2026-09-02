@@ -19,8 +19,10 @@
 12. Complete every required domain. Never skip because another domain has issues; never stop early.
 13. For fixes: edit project files, inspect `git diff`, run narrow validation, then full available validation.
 14. Re-audit changed surfaces and adjacent routes/components; update finding state only after verification.
-15. Before final output, confirm every required run-ledger item is terminal and every claimed fix has evidence.
-16. Delete only the temporary run directory. Never delete the persistent knowledge layer or other project files.
+15. After static validation, ask the user once before any server/browser/live HTTP/API verification. If declined, record `USER_DECLINED`; do not run runtime checks or claim runtime verification.
+16. If approved, complete all applicable runtime checks, retry transient failures, and re-test affected surfaces.
+17. Before final output, confirm every required run-ledger item is terminal and every claimed fix has evidence.
+18. Delete only the temporary run directory. Never delete the persistent knowledge layer or other project files.
 
 ## Lazy Retrieval Rule
 

@@ -85,7 +85,8 @@ Required gates:
 - [ ] GEO/AEO/AI-search audit completed.
 - [ ] Next.js audit completed when Next.js is detected.
 - [ ] Relevant security/hardening checks completed when the application exposes web/server functionality.
-- [ ] Validation/build/lint/typecheck/runtime checks were run when the environment supports them.
+- [ ] Static validation (lint/typecheck/build) was run when the environment supports it.
+- [ ] Runtime/live verification is either `COMPLETED` after explicit user approval or `USER_DECLINED` with runtime claims explicitly excluded.
 - [ ] Every finding has evidence.
 - [ ] Every finding has severity and classification.
 - [ ] Remediation order is complete.
@@ -93,7 +94,34 @@ Required gates:
 
 If a gate fails, continue working. Do not finalize the report merely because a plausible report can already be written.
 
-### 5. RECOVERY / RETRY POLICY
+### 4A. LIVE RUNTIME VERIFICATION — EXPLICIT USER CONSENT REQUIRED
+
+Live/runtime verification is optional and MUST NOT begin automatically.
+
+After static validation is complete (`lint`, `typecheck`, `build` when applicable), determine whether runtime verification would materially improve confidence. Before doing any of the following, ASK THE USER ONCE for permission:
+
+- starting or restarting a development server;
+- browser automation;
+- live HTTP route probing;
+- live API integration testing;
+- route crawling against a running application;
+- checking rendered runtime behavior.
+
+Use this prompt:
+
+> Static validation is complete. Live runtime verification can test actual routes, HTTP status codes, rendered pages, API integration, and browser behavior. Do you want me to continue with live/runtime verification? (yes/no)
+
+Rules:
+
+1. Do not start a server, browser session, live route crawl, or live integration probe before explicit approval.
+2. Ask only once per run. A clear `yes` means proceed with the complete runtime verification scope that is applicable; a clear `no` means do not perform runtime verification.
+3. If the user declines, record `USER_DECLINED` in the temporary run ledger. This is not a failure and MUST NOT be converted into `BLOCKED_AFTER_RETRY`.
+4. If the user declines, continue all remaining non-runtime checks that can be completed safely, then report runtime verification as not performed. Never claim runtime behavior was verified.
+5. If the user approves, complete the full applicable runtime scope. Do not stop at the first runtime failure. Diagnose, retry transient failures, continue independent checks, and re-test affected surfaces after fixes.
+6. The final report MUST distinguish `STATIC VERIFIED`, `RUNTIME VERIFIED`, and `RUNTIME USER-DECLINED`.
+7. Runtime verification is never a reason to skip static checks, source refresh, source-link traversal, project scanning, or other mandatory domains.
+
+## 5. RECOVERY / RETRY POLICY
 
 When a required operation fails:
 

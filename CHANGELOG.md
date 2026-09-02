@@ -1,5 +1,14 @@
 # Changelog
 
+## Runtime verification consent update
+- Added an explicit user-consent gate before any live/runtime verification.
+- Removed the implication that runtime checks are mandatory when the user has not approved them.
+- Added `USER_DECLINED` terminal state for runtime verification.
+- Kept static validation and all non-runtime audit domains mandatory.
+- Updated project-local steps and README to match the consent workflow.
+
+# Changelog
+
 ## 2026-09-02 — Execution / Context / Persistence Hardening
 
 - Removed the persistent `run-ledger-template.md` from the skill package.

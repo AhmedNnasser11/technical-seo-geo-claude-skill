@@ -172,3 +172,7 @@ This skill is open-source and free to use. Feel free to fork, modify, and share.
 ## Persistent Knowledge Layer
 
 See `PROJECT-KNOWLEDGE-ARCHITECTURE.md` and `KNOWLEDGE-INDEX.md`.
+
+
+## Runtime verification consent
+Live/runtime verification is intentionally user-controlled. The skill completes static checks first, then asks once before starting servers, browsers, live HTTP probes, route crawling, or live API integration tests. A `no` is recorded as `USER_DECLINED` and is not treated as a failure.
