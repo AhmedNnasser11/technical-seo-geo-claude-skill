@@ -11,3 +11,12 @@
 - Added mandatory Git diff verification after project changes so fixes cannot exist only in temporary state.
 - Added explicit reporting of changed project files and meaningful diff verification.
 - Preserved the no-skip, no-early-stop, recursive authoritative-source verification, retry/recovery, evidence, and re-audit requirements.
+
+## 2026-09-02 — Persistent Knowledge Graph
+
+- Added a durable lazy-loaded project/source knowledge layer under `.claude/technical-seo-geo/`.
+- Added stable graph node IDs, concise descriptions, retrieval hints, hashes, relationships, and evidence pointers.
+- Added durable `findings.jsonl` for cross-run continuity without retaining raw run logs.
+- Added JSON schemas for project graph, source graph, and findings.
+- Kept the per-run ledger temporary and outside the repository.
+- Updated project-local steps to use graph-first, evidence-second retrieval.

@@ -167,6 +167,96 @@ Rules for this file:
 
 The initial runbook content should be the compact step sequence shown in `PROJECT-LOCAL-STEPS.md`.
 
+
+## 7C. PERSISTENT PROJECT KNOWLEDGE GRAPH (DURABLE, LAZY-LOADED)
+
+The skill MUST persist the useful results of project scanning and source discovery so future runs do not depend on model memory.
+
+Create this directory only if absent:
+
+`.claude/technical-seo-geo/`
+
+Required durable files:
+
+- `README.md` — compact description of the knowledge layer and retrieval contract.
+- `project-graph.json` — compact graph of project files/routes/configuration.
+- `source-graph.json` — compact graph of authoritative source pages and relevant child links.
+- `findings.jsonl` — durable material findings that are useful across runs.
+
+### What the graphs are
+
+The graphs are **navigation/index layers**, not copies of the project or the web.
+
+Every project node MUST have:
+
+- stable `id`;
+- canonical `path` or route;
+- concise `description` explaining what the node is and why it matters;
+- `retrieval_hint` explaining when an AI should open it;
+- status/hash/last-scanned metadata when available;
+- evidence pointers rather than copied file contents.
+
+Every source node MUST have:
+
+- stable `id`;
+- canonical URL;
+- concise `description` explaining why the source matters;
+- `retrieval_hint` explaining which question should cause the agent to open it;
+- authority/scope;
+- version/date/last-checked metadata when available;
+- short conclusions only;
+- edges to relevant child sources;
+- no full copied documentation.
+
+Every durable finding MUST have:
+
+- stable finding ID;
+- concise title and description;
+- linked project/source node IDs;
+- evidence pointers;
+- severity/classification;
+- remediation;
+- verification state.
+
+### Lazy-loading contract
+
+Do NOT load the full graph into context.
+
+At run start load only:
+
+1. the compact runbook;
+2. graph README/metadata;
+3. a summary of project nodes;
+4. a summary of source nodes;
+5. relevant open findings.
+
+Then retrieve details using:
+
+`question -> node ID -> description -> retrieval_hint -> actual file/source -> evidence`
+
+The agent MUST open the actual project file before making a code-level claim.
+The agent MUST revalidate applicable web sources before treating a source-node conclusion as current.
+
+### Graph update rules
+
+- Preserve stable IDs across rescans.
+- Update existing canonical nodes instead of creating duplicates.
+- Add edges when relationships are discovered.
+- Replace stale descriptions/conclusions with the newer verified ones.
+- Store hashes/version markers so deeper inspection can be skipped only when the underlying entity has not changed and the audit does not require a fresh re-check.
+- Do not store full logs, full source pages, or full project files in the persistent graph.
+- Keep transient command output and the mandatory run ledger in the temporary run directory only.
+
+### Source graph is NOT a substitute for LIVE verification
+
+A persisted source node can answer **where and why to look**. It cannot make an old conclusion current.
+Every applicable audit still requires runtime source refresh, recursive relevant-link verification, and recording the newly selected authoritative version/date.
+
+### Findings are durable; run state is not
+
+Persistent findings survive across runs because they provide useful continuity.
+The per-run execution ledger does NOT survive and MUST remain outside the repository.
+
 ## 8. DETECT THE ACTUAL STACK
 
 Before applying framework-specific rules:
@@ -301,6 +391,21 @@ For every source family, record:
 - links intentionally rejected as irrelevant (brief reason);
 - source/version selected for each audited rule;
 - whether the family reached an empty relevant frontier.
+
+## 11A. PERSISTENT KNOWLEDGE WRITE-BACK
+
+At the end of each completed audit domain, write back only durable, reusable knowledge:
+
+1. Update existing project/source nodes by stable ID when they already exist.
+2. Add new nodes only for new canonical files/routes/sources.
+3. Add or update edges that explain dependency, route, ownership, source->rule, or source->child relationships.
+4. Keep each node description short enough to scan quickly.
+5. Store the exact evidence pointer, not a copied transcript.
+6. Write durable findings to `findings.jsonl` only when they remain useful beyond the current run.
+7. Leave raw logs, full HTML dumps, browser traces, and run-ledger state in the temporary run directory.
+8. If a prior node is stale, mark it stale/replaced and point to the new node instead of silently keeping contradictory facts.
+
+The knowledge graph is a **retrieval layer**. The actual project files and live sources remain the evidence layer.
 
 ## 12. FIX / REMEDIATION LOOP (WHEN THE TASK REQUESTS CHANGES)
 
@@ -492,6 +597,11 @@ The bundled reference files are implementation guidance and a fallback baseline.
 
 - `source-registry.md` — live source seeds, authority hierarchy, recursive source verification
 - `PROJECT-LOCAL-STEPS.md` — compact steps to install into `.claude/technical-seo-geo-runbook.md`; persistent and never auto-deleted
+- `PROJECT-KNOWLEDGE-ARCHITECTURE.md` — persistent project/source knowledge-graph contract
+- `KNOWLEDGE-INDEX.md` — compact index of persistent graph files and retrieval rules
+- `project-graph.schema.json` — schema for the project graph
+- `source-graph.schema.json` — schema for the source graph
+- `finding.schema.json` — schema for durable findings
 - `semantic-html.md` — document structure, landmarks, headings, forms
 - `accessibility.md` — labels, keyboard, focus, ARIA, WCAG usage
 - `metadata.md` — titles, meta descriptions, robots directives in metadata

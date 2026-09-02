@@ -168,3 +168,7 @@ Reference modules are loaded on demand to avoid unnecessarily filling Claude's c
 
 This skill is open-source and free to use. Feel free to fork, modify, and share.
 # technical-seo-geo-claude-skill
+
+## Persistent Knowledge Layer
+
+See `PROJECT-KNOWLEDGE-ARCHITECTURE.md` and `KNOWLEDGE-INDEX.md`.

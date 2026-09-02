@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Technical SEO GEO Finding",
+  "type": "object",
+  "required": ["id", "title", "description", "status", "severity", "classification", "last_updated"],
+  "properties": {
+    "id": {"type": "string"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "status": {"enum": ["OPEN", "FIXING", "FIXED_VERIFIED", "BLOCKED_AFTER_RETRY", "ACCEPTED_RISK"]},
+    "severity": {"enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "OPPORTUNITY"]},
+    "classification": {"type": "string"},
+    "project_node_ids": {"type": "array", "items": {"type": "string"}},
+    "source_node_ids": {"type": "array", "items": {"type": "string"}},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "remediation": {"type": "string"},
+    "verification": {"type": "array", "items": {"type": "string"}},
+    "last_updated": {"type": "string"}
+  }
+}

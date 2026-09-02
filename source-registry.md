@@ -6,6 +6,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Google Search / SEO / AI Search
 
+**Description:** Primary normative source family for Google crawling, indexing, search appearance, structured-data eligibility, spam policies, and current AI-search/generative-AI guidance.
+
+**Retrieval hint:** Open this family for any question about Google Search behavior, indexability, rich results, AI features, Search policies, or whether an SEO/GEO tactic is officially supported.
+
+
 ### Seeds
 - https://developers.google.com/search/docs
 - https://developers.google.com/search/updates
@@ -26,6 +31,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Next.js
 
+**Description:** Version-sensitive first-party source family for Next.js routing, metadata, rendering, sitemap/robots conventions, caching, and framework security/release changes.
+
+**Retrieval hint:** Open after detecting Next.js, or whenever a proposed implementation depends on a Next.js API, file convention, rendering behavior, cache behavior, or release/security change.
+
+
 ### Seeds
 - https://nextjs.org/docs
 - https://nextjs.org/blog
@@ -45,6 +55,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Web Performance / Core Web Vitals
 
+**Description:** Current web.dev guidance for user-centric performance metrics and measurement methodology, including LCP, INP, and CLS.
+
+**Retrieval hint:** Open when assessing performance, Core Web Vitals, loading/rendering behavior, or whether a code-level optimization is supported by current performance guidance.
+
+
 ### Seeds
 - https://web.dev/performance
 - https://web.dev/vitals/
@@ -58,6 +73,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 - Do not declare a pass from code inspection alone.
 
 ## Security
+
+**Description:** OWASP and related authoritative security guidance used to identify applicable web-application attack surfaces and hardening requirements.
+
+**Retrieval hint:** Open when the application exposes forms, APIs, server-side fetches, authentication/session boundaries, HTML injection surfaces, redirects, or security-sensitive configuration.
+
 
 ### Seeds
 - https://owasp.org/www-project-top-ten/
@@ -75,6 +95,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Accessibility
 
+**Description:** W3C WAI/WCAG/ARIA normative and supporting guidance for accessible structure, keyboard interaction, focus, names/roles/states, and conformance claims.
+
+**Retrieval hint:** Open when auditing a11y behavior, semantic structure, custom controls, dialogs/menus/tabs, keyboard operation, or WCAG conformance.
+
+
 ### Seeds
 - https://www.w3.org/WAI/
 - https://www.w3.org/WAI/standards-guidelines/
@@ -91,6 +116,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Schema.org
 
+**Description:** Current schema vocabulary and release information; use it to understand available types/properties, while Google documentation determines Google Search feature eligibility.
+
+**Retrieval hint:** Open when reviewing JSON-LD vocabulary, type/property availability, schema version changes, or whether a proposed schema structure exists.
+
+
 ### Seeds
 - https://schema.org/docs/releases.html
 - https://schema.org/version/latest
@@ -102,6 +132,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## Radix UI
 
+**Description:** First-party accessibility and release guidance for Radix primitives used by the project.
+
+**Retrieval hint:** Open only when Radix primitives are detected or a custom control wraps Radix behavior and the audit needs primitive-specific a11y/release details.
+
+
 ### Seeds
 - https://www.radix-ui.com/primitives/docs/overview/accessibility
 - https://www.radix-ui.com/primitives/docs/overview/releases
@@ -112,6 +147,11 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 
 ## GEO / AEO / Industry Guidance
 
+**Description:** Secondary industry guidance used for emerging AI-search optimization ideas that must be separated from officially documented Google behavior.
+
+**Retrieval hint:** Open when exploring GEO/AEO opportunities, but compare every material claim against current first-party search guidance before treating it as normative.
+
+
 ### Seeds
 - https://writer.com/blog/geo-aeo-optimization
 
@@ -120,6 +160,34 @@ At every run, the agent MUST refresh the applicable sources, inspect official up
 - Compare claims against current Google Search guidance.
 - Classify unsupported tactics as `EMERGING_GEO` or `EXPERIMENTAL`.
 - Never present marketing claims as guaranteed ranking, indexing, citation, or AI-visibility behavior.
+
+## Source-node description contract
+
+When a seed or discovered authoritative page becomes a persistent source-graph node, store a compact descriptor instead of copying the page:
+
+- `description`: 1–3 sentences explaining what the source governs and why it matters to this skill;
+- `retrieval_hint`: the question/event that should cause the agent to reopen the source;
+- `scope`: rule families covered by the source;
+- `authority`: normative/official/secondary/experimental classification;
+- `version` / `updated_at` / `last_checked`: freshness metadata when available;
+- `conclusions`: short verified conclusions only;
+- `content_hash`: optional hash for detecting meaningful changes;
+- `edges`: relationships to relevant child sources.
+
+Example descriptor:
+
+```json
+{
+  "id": "google.search.ai-features",
+  "description": "Official Google Search documentation describing supported generative AI search features and the guidance that applies to eligible content.",
+  "retrieval_hint": "Open when auditing AI-search visibility, generative-AI search behavior, or claims about Google AI features.",
+  "scope": ["ai-search", "search-appearance", "content-guidance"],
+  "authority": "official",
+  "edges": ["google.search.updates"]
+}
+```
+
+The descriptor is the memory-friendly explanation. It is never a substitute for reopening the live source when the rule is applicable to the current audit.
 
 ## Recursive source-graph protocol
 
