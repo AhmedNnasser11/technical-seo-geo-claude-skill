@@ -1,178 +1,42 @@
-# 🔍 Technical SEO & GEO — Claude Code Skill
+# Technical SEO / GEO Claude Skill — Production Architecture
 
-> **A live audit + remediation skill for Claude Code** that performs comprehensive Technical SEO, Accessibility, Structured Data, Performance, Security, and GEO/AEO audits on websites and codebases, while refreshing authoritative guidance at runtime.
+Version: 2.0.0
 
-Give Claude this skill and it will analyze your code or website against **60+ rules** sourced from official standards (Google, W3C, WCAG, Schema.org) and industry best practices, then produce a scored audit report with prioritized, actionable fixes.
+This package is an evidence-driven Claude skill for auditing and safely improving modern Next.js websites across technical SEO, GEO/AEO/AI Search, metadata, structured data, internal linking, performance, security, accessibility, and ecommerce.
 
----
+## Core design
 
-## 🔒 Execution Guarantees
+The skill separates four kinds of state:
 
-This skill is designed to prevent silent omissions. On every run it:
+1. **Persistent project knowledge** — `.claude/technical-seo-geo/` in the target project.
+2. **Persistent source knowledge** — source nodes and relationships stored in the same durable knowledge layer.
+3. **Persistent findings** — `findings.jsonl`, with implementation and verification kept separate.
+4. **Temporary run state** — unique outside-repository state used only while a run is executing; it is never installed by this package.
 
-- refreshes applicable authoritative sources from the web;
-- follows relevant official sub-links recursively until the relevant source frontier is exhausted;
-- maintains a mandatory per-run execution ledger without persisting run state in the project repository;
-- uses a compact project-local runbook to reduce future context usage;
-- retries failed operations and continues independent work;
-- cannot finalize while required domains remain pending;
-- requires evidence for findings and post-fix verification when remediation is requested.
+The graphs are indexes/navigation aids, not replacements for live project files or authoritative web sources.
 
-The bundled markdown files are a baseline, **never the runtime source of truth**. Current Google Search guidance, current Next.js version documentation/release notes, current W3C accessibility status, current OWASP guidance, and current Schema.org releases take precedence according to the source hierarchy.
+## Package map
 
-## ⚡ Quick Start
+- `SKILL.md` — execution contract and state machine.
+- `KNOWLEDGE-INDEX.md` — minimal entry point for agents.
+- `PROJECT-KNOWLEDGE-ARCHITECTURE.md` — persistence/retrieval design.
+- `PROJECT-LOCAL-STEPS.md` — concise runbook to install in a project when absent.
+- `source-registry.json` — authoritative source families and seed nodes.
+- `audit-manifest.json` — domain applicability, dependencies, evidence, and revalidation contracts.
+- `domains/*.md` — domain-specific audit knowledge loaded on demand.
+- `schemas/*.schema.json` — machine-checkable contracts for plan, evidence, ledger, graphs, and findings.
+- `scripts/validate-package.py` — offline package integrity validator; no network access required.
+- `CHANGELOG.md` — changes from the previous architecture.
+- `MIGRATION.md` — migration notes for existing installations.
 
-1. **Add the skill** — Copy this folder into your Claude Code custom skills directory (e.g. `.claude/skills/`).
-2. **Ask Claude to audit** — Open your project and ask:
-   ```
-   Audit this website for technical SEO, accessibility, and GEO readiness.
-   ```
-3. **Get a scored report** — Claude returns an executive summary with scores, issues grouped by severity, and a prioritized remediation plan.
+## Runtime source policy
 
----
+Bundled references are baseline knowledge only. Applicable rules must be rechecked against current authoritative sources during the audit. Google Search currently documents AI Overviews/AI Mode as using the same foundational SEO requirements, with no special AI-only technical requirement; this skill therefore treats GEO/AEO as a retrieval/content-quality analysis layer rather than as a set of guaranteed ranking tricks.
 
-## 🎯 What It Does
+The source registry also tracks current framework/security sources. For example, Next.js published an August 2026 security release for 16.3.3 and 15.5.24, so version-sensitive security checks must inspect the project's installed version and current release/security guidance.
 
-When given a website, page, or codebase, the skill instructs Claude to assess:
+## Important safety behavior
 
-| # | Area | Description |
-|---|------|-------------|
-| 1 | **SEO Structure & Indexability** | Crawlable links, robots.txt, sitemaps, canonical tags |
-| 2 | **Semantic HTML** | Document outline, landmarks, heading hierarchy |
-| 3 | **Accessibility** | WCAG compliance, keyboard support, ARIA, form labels, alt text |
-| 4 | **Metadata** | Titles, meta descriptions, robots directives |
-| 5 | **Open Graph** | OG tags and social sharing metadata |
-| 6 | **Structured Data** | JSON-LD, schema.org validation, product/breadcrumb/FAQ markup |
-| 7 | **Internal Linking** | Anchor text, breadcrumbs, crawl depth, orphan pages |
-| 8 | **Core Web Vitals** | LCP, INP, CLS, and performance risks |
-| 9 | **E-commerce SEO** | Product/category pages, faceted navigation, inventory handling |
-| 10 | **GEO (Generative Engine Optimization)** | AI extractability, entity clarity, content chunking |
-| 11 | **AEO (Answer Engine Optimization)** | Answer-first structure, question-led headings |
-| 12 | **LLM Visibility** | Passage extractability, trust signals, citation readiness |
-| 13 | **AI Search Optimization** | AI Overviews positioning, brand entity presence |
-| 14 | **Next.js SEO** | `generateMetadata`, `sitemap.ts`, `robots.ts`, rendering strategy |
+Runtime verification is never started automatically. Static validation must finish first, then the skill asks once for explicit permission before starting servers, browsers, live HTTP/API checks, or runtime crawling.
 
----
-
-## 📊 Output Format
-
-The skill produces a structured audit report:
-
-### Executive Summary
-| Score | Description |
-|-------|-------------|
-| **Overall Score** | 0–100 composite |
-| **SEO Score** | Indexability, metadata, linking |
-| **Accessibility Score** | WCAG, keyboard, ARIA |
-| **Performance Score** | Core Web Vitals |
-| **GEO Score** | Generative Engine readiness |
-| **AEO Score** | Answer Engine readiness |
-| **LLM Visibility Score** | AI extractability & trust |
-
-### Issue Reports
-Every issue includes:
-- **Category** — Which audit area it belongs to
-- **Severity** — Critical / High / Medium / Low / Opportunity
-- **Classification** — Official Standard, Industry Best Practice, Emerging GEO Practice, or Experimental
-- **Why It Matters** — Impact explanation
-- **Fix** — Concrete remediation steps
-- **Example** — Code or content example
-
-### Remediation Priority
-1. 🔴 **Critical** — Blocks indexing, accessibility, or rendering
-2. 🟠 **High** — Affects ranking, snippets, or AI visibility
-3. 🟡 **Medium** — Structural and performance improvements
-4. 🔵 **Low** — Polish and refinements
-5. ⚪ **Opportunity** — Experimental GEO/AEO ideas
-
----
-
-## 📁 Skill File Map
-
-| File | Coverage |
-|------|----------|
-| [`SKILL.md`](SKILL.md) | Core skill definition, live-source protocol, no-skip execution contract, context controls, and completion gates |
-| [`PROJECT-LOCAL-STEPS.md`](PROJECT-LOCAL-STEPS.md) | Compact steps for the persistent project-local runbook |
-| [`CHANGELOG.md`](CHANGELOG.md) | Versioned hardening/change summary |
-| [`source-registry.md`](source-registry.md) | Live source seeds, recursive sub-link verification, and source authority rules |
-| [`semantic-html.md`](semantic-html.md) | Document structure, landmarks, headings, forms |
-| [`accessibility.md`](accessibility.md) | Labels, keyboard, focus, ARIA, WCAG rules |
-| [`metadata.md`](metadata.md) | Titles, meta descriptions, robots directives |
-| [`open-graph.md`](open-graph.md) | OG tags and social metadata |
-| [`schema.md`](schema.md) | Structured data rules and validation (JSON-LD, Product, Breadcrumb, feature-specific structured data) |
-| [`sitemap.md`](sitemap.md) | Sitemap.xml strategy and coverage |
-| [`robots.md`](robots.md) | robots.txt crawl control and indexability |
-| [`canonical.md`](canonical.md) | Canonicalization and duplicate URL handling |
-| [`internal-links.md`](internal-links.md) | Crawlable links, anchor text, breadcrumbs |
-| [`core-web-vitals.md`](core-web-vitals.md) | LCP, INP, CLS, and performance logic |
-| [`nextjs-seo.md`](nextjs-seo.md) | Next.js metadata, routing, sitemap/robots, rendering |
-| [`ecommerce-seo.md`](ecommerce-seo.md) | Product/category pages, facets, inventory handling |
-| [`geo.md`](geo.md) | Generative Engine Optimization practices |
-| [`aeo.md`](aeo.md) | Answer Engine content patterns |
-| [`llm-visibility.md`](llm-visibility.md) | Extractability, citation readiness, entity clarity |
-| [`ai-search.md`](ai-search.md) | AI Overviews and AI search positioning |
-| [`audit-checklist.md`](audit-checklist.md) | Step-by-step audit checklist |
-
----
-
-## 🏛️ Source Authority Hierarchy
-
-The skill uses a strict source hierarchy, but its source base is **live**. The bundled files are a baseline only. Every run refreshes applicable sources, checks updates/release notes, and recursively follows relevant authoritative sub-links before making current recommendations.
-
-1. **Google / W3C / WHATWG / WCAG / Schema.org / Next.js** — Official standards
-2. **MDN** — Trusted reference documentation
-3. **Industry sources** (Lumar, Ahrefs, etc.) — Best practices
-4. **GEO / AI research** — Emerging and experimental
-
-Every finding is classified into one of:
-- ✅ **Official Standard** — Backed by Google, W3C, WCAG, or Schema.org
-- 📘 **Industry Best Practice** — Widely accepted by the SEO community
-- 🧪 **Emerging GEO Practice** — Promising but not standardized
-- 🔬 **Experimental** — Speculative, clearly labeled as such
-
----
-
-## 💡 Example Usage
-
-```
-# Full audit
-Audit my Next.js e-commerce site for SEO, accessibility, and GEO readiness.
-
-# Targeted audit
-Check the structured data and metadata on my product pages.
-
-# GEO-focused
-How GEO-ready is my content? Check entity clarity, content chunking, and LLM visibility.
-
-# Accessibility check
-Run an accessibility audit on my checkout flow.
-```
-
----
-
-## ⚠️ Important Notes
-
-- **GEO/AEO practices are clearly labeled** — Emerging and experimental findings are never presented as guaranteed ranking factors.
-- **Scoring starts at 100** and subtracts for confirmed issues. Opportunity items do not reduce score unless they also create a concrete SEO or accessibility problem.
-- **The skill deduplicates** overlapping rules across files before flagging issues, so you won't see redundant findings.
-
----
-
-## 🔒 Persistence & Context Safety
-
-The skill does **not** install a persistent per-run ledger into the project. Runtime ledger state belongs in a unique temporary directory outside the repository and is cleaned up after the run. The optional `.claude/technical-seo-geo-runbook.md` is durable project documentation: it is created only when absent and is never automatically overwritten or deleted.
-
-Reference modules are loaded on demand to avoid unnecessarily filling Claude's context window.
-
-## 📄 License
-
-This skill is open-source and free to use. Feel free to fork, modify, and share.
-# technical-seo-geo-claude-skill
-
-## Persistent Knowledge Layer
-
-See `PROJECT-KNOWLEDGE-ARCHITECTURE.md` and `KNOWLEDGE-INDEX.md`.
-
-
-## Runtime verification consent
-Live/runtime verification is intentionally user-controlled. The skill completes static checks first, then asks once before starting servers, browsers, live HTTP probes, route crawling, or live API integration tests. A `no` is recorded as `USER_DECLINED` and is not treated as a failure.
+The package also includes `scripts/cleanup-run.py`, a path-constrained helper for removing one temporary run directory. It refuses to delete the temp namespace root or paths containing protected project-state directories.

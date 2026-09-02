@@ -1,31 +1,34 @@
 # Changelog
 
-## Runtime verification consent update
-- Added an explicit user-consent gate before any live/runtime verification.
-- Removed the implication that runtime checks are mandatory when the user has not approved them.
-- Added `USER_DECLINED` terminal state for runtime verification.
-- Kept static validation and all non-runtime audit domains mandatory.
-- Updated project-local steps and README to match the consent workflow.
+## 2.0.0 — Production architecture
 
-# Changelog
+### Replaced
 
-## 2026-09-02 — Execution / Context / Persistence Hardening
+- Flat source-list thinking with an explicit source knowledge graph and relevance frontier.
+- Prose-only completion with a machine-checkable audit state machine.
+- Combined `FIXED_VERIFIED` finding state with separate implementation and verification state.
+- Weak/unexplained `UNKNOWN` handling with explicit terminal domain statuses.
+- Generic runtime wording with a hard post-static consent boundary.
+- Ambiguous temp cleanup with a dedicated, path-scoped temporary-state contract.
 
-- Removed the persistent `run-ledger-template.md` from the skill package.
-- Run ledgers are now explicitly temporary and must live outside the repository in a unique per-run temp directory.
-- Added cleanup rules that remove only temporary run state; repository files are never deleted for ledger cleanup.
-- Added a compact project-local runbook at `PROJECT-LOCAL-STEPS.md`.
-- The skill may create `.claude/technical-seo-geo-runbook.md` only when absent; it must never overwrite or delete it automatically.
-- Added a context-budget policy: load reference modules on demand instead of loading all markdown files at once.
-- Added mandatory Git diff verification after project changes so fixes cannot exist only in temporary state.
-- Added explicit reporting of changed project files and meaningful diff verification.
-- Preserved the no-skip, no-early-stop, recursive authoritative-source verification, retry/recovery, evidence, and re-audit requirements.
+### Added
 
-## 2026-09-02 — Persistent Knowledge Graph
+- `audit-manifest.json` for domain applicability, inputs, evidence, pass/issue criteria, and revalidation triggers.
+- `schemas/audit-plan.schema.json`.
+- `schemas/evidence.schema.json`.
+- `schemas/run-ledger.schema.json`.
+- Stronger project/source/finding schemas.
+- Source authority and freshness metadata.
+- Source conflict records and recursive frontier accounting.
+- Git attribution model for pre-existing vs intended/unrelated changes.
+- Offline package self-validator.
+- Migration notes and concise project-local runbook.
 
-- Added a durable lazy-loaded project/source knowledge layer under `.claude/technical-seo-geo/`.
-- Added stable graph node IDs, concise descriptions, retrieval hints, hashes, relationships, and evidence pointers.
-- Added durable `findings.jsonl` for cross-run continuity without retaining raw run logs.
-- Added JSON schemas for project graph, source graph, and findings.
-- Kept the per-run ledger temporary and outside the repository.
-- Updated project-local steps to use graph-first, evidence-second retrieval.
+### Retained/improved
+
+- Persistent project graph.
+- Persistent source graph.
+- Persistent findings.
+- On-demand domain reference loading.
+- Retry/recovery and no-early-stop behavior.
+- Runtime consent requirement.

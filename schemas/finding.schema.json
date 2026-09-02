@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/technical-seo-geo/finding.schema.json",
+  "title":"Technical SEO GEO Finding",
+  "type":"object",
+  "required":["id","title","description","category","severity","classification","status","verification_status","first_detected","last_updated","project_node_ids","source_node_ids","evidence_ids"],
+  "properties":{
+    "id":{"type":"string"},"title":{"type":"string"},"description":{"type":"string"},"category":{"type":"string"},"severity":{"enum":["CRITICAL","HIGH","MEDIUM","LOW","OPPORTUNITY"]},"classification":{"enum":["OFFICIAL_STANDARD","FIRST_PARTY_IMPLEMENTATION","INDUSTRY_BEST_PRACTICE","EMERGING_GEO","EXPERIMENTAL","SECURITY_RISK","ACCESSIBILITY_CONFORMANCE"]},"status":{"enum":["OPEN","INVESTIGATING","FIXING","FIXED","BLOCKED_AFTER_RETRY","ACCEPTED_RISK"]},"verification_status":{"enum":["UNVERIFIED","VERIFIED","FAILED","NOT_APPLICABLE"]},"project_node_ids":{"type":"array","items":{"type":"string"}},"source_node_ids":{"type":"array","items":{"type":"string"}},"evidence_ids":{"type":"array","items":{"type":"string"}},"root_cause":{"type":"string"},"remediation":{"type":"string"},"verification_evidence_ids":{"type":"array","items":{"type":"string"}},"regression_evidence_ids":{"type":"array","items":{"type":"string"}},"first_detected":{"type":"string"},"last_checked":{"type":"string"},"last_updated":{"type":"string"}
+  },
+  "allOf":[
+    {"if":{"properties":{"status":{"const":"FIXED"}}},"then":{"properties":{"verification_status":{"enum":["UNVERIFIED","VERIFIED","FAILED"]}}}},
+    {"if":{"properties":{"verification_status":{"const":"VERIFIED"}}},"then":{"required":["verification_evidence_ids"]}}
+  ],
+  "additionalProperties":false
+}

@@ -1,41 +1,32 @@
-# Technical SEO/GEO — Project-Local Runbook
+# Technical SEO / GEO — Project-Local Runbook
 
-> Durable project instructions only. This file is deliberately compact.
-> Persistent scan knowledge lives under `.claude/technical-seo-geo/`.
+Keep this file concise. It is durable project guidance, not a run ledger.
 
-## Every Run
+## Every run
 
-1. Inspect the project and `git status --short` before making changes.
-2. Read this runbook plus the knowledge-layer README; do not load every reference file.
-3. Read the compact project/source graph summaries. Load only nodes relevant to the current question.
-4. Inspect `package.json` and detect framework/library versions and routing.
-5. Create a unique temporary run directory outside the repository for the run ledger and raw logs.
-6. Refresh applicable official sources at runtime. The persistent source graph is a map, never the final source of truth.
-7. Follow relevant authoritative sub-links recursively until the relevant source frontier is empty.
-8. Before auditing a domain, load only that domain's reference module and targeted graph nodes.
-9. Scan the actual project files/routes/components needed for the domain.
-10. Update persistent project-graph/source-graph nodes with short descriptions, pointers, hashes, and verified conclusions. Never paste whole files/docs.
-11. Record material findings in `findings.jsonl` with stable IDs and evidence pointers.
-12. Complete every required domain. Never skip because another domain has issues; never stop early.
-13. For fixes: edit project files, inspect `git diff`, run narrow validation, then full available validation.
-14. Re-audit changed surfaces and adjacent routes/components; update finding state only after verification.
-15. After static validation, ask the user once before any server/browser/live HTTP/API verification. If declined, record `USER_DECLINED`; do not run runtime checks or claim runtime verification.
-16. If approved, complete all applicable runtime checks, retry transient failures, and re-test affected surfaces.
-17. Before final output, confirm every required run-ledger item is terminal and every claimed fix has evidence.
-18. Delete only the temporary run directory. Never delete the persistent knowledge layer or other project files.
+1. Read this runbook and `.claude/technical-seo-geo/README.md`.
+2. Inspect Git state before changing anything.
+3. Detect framework, versions, routes, build/lint/typecheck/test tooling.
+4. Read graph summaries and only relevant open findings.
+5. Create a unique temporary run directory outside the repository.
+6. Refresh applicable authoritative sources and exhaust the relevant source frontier.
+7. Load only the domain modules and project nodes required for the current audit.
+8. Record material findings with evidence and stable IDs.
+9. Apply safe fixes only after inspecting the real files and current sources.
+10. Verify `git diff` and run all applicable static gates.
+11. After static validation, ask once for explicit runtime verification consent.
+12. If declined, record `USER_DECLINED` and make no runtime claims. If approved, perform the complete applicable runtime scope and re-test affected surfaces.
+13. Update persistent graphs/findings and run the final completeness gate.
+14. Delete only the dedicated temporary run directory.
 
-## Lazy Retrieval Rule
+## Retrieval
 
-Use the persistent graph to answer **where to look**, not as proof of the current state:
+`question -> graph node -> retrieval_hint -> actual file/source -> fresh evidence`
 
-`question -> node -> description -> retrieval_hint -> actual file/source -> fresh evidence`
+## Persistence
 
-## Durable-File Rule
+Durable project knowledge is `.claude/technical-seo-geo/`. Temporary ledgers and raw runtime artifacts stay outside the repository.
 
-`.claude/technical-seo-geo-runbook.md` and `.claude/technical-seo-geo/*` are persistent project documentation/knowledge.
+## Safety
 
-- Create them only if absent.
-- Never delete them during run cleanup.
-- Never overwrite the whole graph blindly.
-- Preserve stable node IDs and existing project-owned notes.
-- Keep descriptions short and useful to future agents.
+Never reset user changes. Never delete `.git`, `.claude/`, or persistent knowledge during temp cleanup. Never report `VERIFIED` from an implementation edit alone.

@@ -1,0 +1,236 @@
+{
+  "schema_version": "2.0",
+  "authority_tiers": [
+    {
+      "tier": 1,
+      "name": "normative-or-first-party",
+      "may_override": true
+    },
+    {
+      "tier": 2,
+      "name": "official-maintainer-reference",
+      "may_override": true,
+      "condition": "directly applicable to the detected product/version"
+    },
+    {
+      "tier": 3,
+      "name": "reputable-secondary",
+      "may_override": false
+    },
+    {
+      "tier": 4,
+      "name": "industry-or-experimental",
+      "may_override": false
+    }
+  ],
+  "families": [
+    {
+      "id": "google-search",
+      "authority_tier": 1,
+      "description": "Google Search Central sources governing technical eligibility, crawling, indexing, canonicalization, sitemaps, robots, content guidance, spam policies, and search appearance.",
+      "retrieval_hint": "Use for any claim about Google Search behavior, eligibility, crawling/indexing, canonicalization, content policy, or search appearance.",
+      "seeds": [
+        {
+          "id": "google.search.essentials",
+          "url": "https://developers.google.com/search/docs/essentials"
+        },
+        {
+          "id": "google.search.technical",
+          "url": "https://developers.google.com/search/docs/essentials/technical"
+        },
+        {
+          "id": "google.search.crawling",
+          "url": "https://developers.google.com/search/docs/crawling-indexing"
+        },
+        {
+          "id": "google.search.javascript",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics"
+        },
+        {
+          "id": "google.search.canonical",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/canonicalization"
+        },
+        {
+          "id": "google.search.sitemaps",
+          "url": "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap"
+        },
+        {
+          "id": "google.search.updates",
+          "url": "https://developers.google.com/search/updates"
+        }
+      ]
+    },
+    {
+      "id": "google-ai-search",
+      "authority_tier": 1,
+      "description": "Current Google documentation for AI Overviews, AI Mode, generative AI search guidance, and AI-related preview/visibility controls.",
+      "retrieval_hint": "Use when auditing AI Search/GEO/AEO claims, AI visibility, generative AI content guidance, or controls affecting Search AI features.",
+      "seeds": [
+        {
+          "id": "google.search.ai-features",
+          "url": "https://developers.google.com/search/docs/appearance/ai-features"
+        },
+        {
+          "id": "google.search.ai-optimization",
+          "url": "https://developers.google.com/search/docs/fundamentals/ai-optimization-guide"
+        },
+        {
+          "id": "google.search.ai-performance",
+          "url": "https://developers.google.com/search/blog/2026/06/gen-ai-performance-reports"
+        }
+      ]
+    },
+    {
+      "id": "google-structured-data",
+      "authority_tier": 1,
+      "description": "Google Search structured-data documentation defining supported features, eligibility, required properties, and implementation guidance.",
+      "retrieval_hint": "Use before calling structured data required, useful, eligible, deprecated, or feature-specific.",
+      "seeds": [
+        {
+          "id": "google.structured-data.intro",
+          "url": "https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data"
+        },
+        {
+          "id": "google.structured-data.product",
+          "url": "https://developers.google.com/search/docs/appearance/structured-data/product"
+        },
+        {
+          "id": "google.structured-data.product-snippet",
+          "url": "https://developers.google.com/search/docs/appearance/structured-data/product-snippet"
+        }
+      ]
+    },
+    {
+      "id": "nextjs",
+      "authority_tier": 1,
+      "description": "Version-sensitive official Next.js documentation and release/security information.",
+      "retrieval_hint": "Open after detecting Next.js or whenever framework APIs, metadata, sitemap, robots, rendering, caching, proxy, or security are involved.",
+      "seeds": [
+        {
+          "id": "nextjs.docs",
+          "url": "https://nextjs.org/docs"
+        },
+        {
+          "id": "nextjs.blog",
+          "url": "https://nextjs.org/blog"
+        },
+        {
+          "id": "nextjs.metadata",
+          "url": "https://nextjs.org/docs/app/getting-started/metadata-and-og-images"
+        },
+        {
+          "id": "nextjs.generate-metadata",
+          "url": "https://nextjs.org/docs/app/api-reference/functions/generate-metadata"
+        },
+        {
+          "id": "nextjs.metadata-files",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/metadata"
+        },
+        {
+          "id": "nextjs.robots",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots"
+        },
+        {
+          "id": "nextjs.sitemap",
+          "url": "https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap"
+        }
+      ]
+    },
+    {
+      "id": "web-performance",
+      "authority_tier": 1,
+      "description": "web.dev performance and Core Web Vitals documentation, including current metric definitions, thresholds, measurement, and optimization guidance.",
+      "retrieval_hint": "Use for LCP, INP, CLS, field vs lab measurement, and performance optimization decisions.",
+      "seeds": [
+        {
+          "id": "webdev.vitals",
+          "url": "https://web.dev/vitals/"
+        },
+        {
+          "id": "webdev.lcp",
+          "url": "https://web.dev/articles/lcp"
+        },
+        {
+          "id": "webdev.inp",
+          "url": "https://web.dev/articles/inp"
+        },
+        {
+          "id": "webdev.cls",
+          "url": "https://web.dev/articles/cls"
+        },
+        {
+          "id": "webdev.performance",
+          "url": "https://web.dev/performance"
+        }
+      ]
+    },
+    {
+      "id": "owasp-security",
+      "authority_tier": 1,
+      "description": "OWASP application-security standards and cheat sheets for attack-surface-driven security auditing.",
+      "retrieval_hint": "Use for web/API security, input handling, auth/session, access control, SSRF, XSS, CSRF, security headers, supply chain, and exception handling.",
+      "seeds": [
+        {
+          "id": "owasp.top10.2025",
+          "url": "https://owasp.org/Top10/2025/"
+        },
+        {
+          "id": "owasp.headers",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html"
+        },
+        {
+          "id": "owasp.xss",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "id": "owasp.csrf",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+        },
+        {
+          "id": "owasp.ssrf",
+          "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+        }
+      ]
+    },
+    {
+      "id": "w3c-accessibility",
+      "authority_tier": 1,
+      "description": "W3C/WAI normative and supporting accessibility guidance, centered on WCAG 2.2 and applicable ARIA standards.",
+      "retrieval_hint": "Use for semantic HTML, accessibility conformance, keyboard/focus, names/roles/states, and ARIA behavior.",
+      "seeds": [
+        {
+          "id": "w3c.wcag.2.2",
+          "url": "https://www.w3.org/TR/wcag/"
+        },
+        {
+          "id": "w3c.wai.wcag",
+          "url": "https://www.w3.org/WAI/standards-guidelines/wcag/"
+        },
+        {
+          "id": "w3c.aria",
+          "url": "https://www.w3.org/TR/wai-aria-1.2/"
+        }
+      ]
+    },
+    {
+      "id": "schema-org",
+      "authority_tier": 1,
+      "description": "Schema.org current stable vocabulary and release information.",
+      "retrieval_hint": "Use to verify that a proposed type/property exists and to identify the current stable vocabulary version; Google documentation remains authoritative for Google feature eligibility.",
+      "seeds": [
+        {
+          "id": "schema.release.latest",
+          "url": "https://schema.org/version/latest"
+        },
+        {
+          "id": "schema.releases",
+          "url": "https://schema.org/docs/releases.html"
+        },
+        {
+          "id": "schema.vocabularies",
+          "url": "https://schema.org/docs/schemas.html"
+        }
+      ]
+    }
+  ]
+}

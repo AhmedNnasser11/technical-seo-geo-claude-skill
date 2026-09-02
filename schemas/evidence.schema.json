@@ -1,0 +1,23 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/technical-seo-geo/evidence.schema.json",
+  "title":"Technical SEO GEO Evidence",
+  "type":"object",
+  "required":["id","kind","claim","observed_at","reproducibility"],
+  "properties":{
+    "id":{"type":"string","minLength":1},
+    "kind":{"enum":["FILE","COMMAND","HTTP","RENDERED_HTML","SOURCE","MEASUREMENT","ADVISORY","RUNTIME_TRACE"]},
+    "claim":{"type":"string","minLength":1},
+    "location":{"type":"string"},
+    "file_hash":{"type":"string"},
+    "command":{"type":"string"},
+    "exit_code":{"type":"integer"},
+    "url":{"type":"string","format":"uri"},
+    "http_status":{"type":"integer"},
+    "source_checked_at":{"type":"string"},
+    "observed_at":{"type":"string"},
+    "reproducibility":{"type":"string","minLength":1},
+    "artifact_ref":{"type":"string"}
+  },
+  "additionalProperties":false
+}

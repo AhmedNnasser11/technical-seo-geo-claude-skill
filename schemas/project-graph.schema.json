@@ -1,0 +1,20 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/technical-seo-geo/project-graph.schema.json",
+  "title":"Technical SEO GEO Project Graph",
+  "type":"object",
+  "required":["schema_version","project","nodes","edges"],
+  "properties":{
+    "schema_version":{"type":"string"},
+    "project":{"type":"object","required":["root","detected_stack"],"properties":{
+      "root":{"type":"string"},"detected_stack":{"type":"array","items":{"type":"string"}},"last_scanned":{"type":"string"}
+    },"additionalProperties":false},
+    "nodes":{"type":"array","items":{"$ref":"#/$defs/node"}},
+    "edges":{"type":"array","items":{"type":"object","required":["from","to","relation"],"properties":{
+      "from":{"type":"string"},"to":{"type":"string"},"relation":{"enum":["contains","renders","imports","calls","links-to","depends-on","configures","generated-by","affects","uses"]},"evidence_ids":{"type":"array","items":{"type":"string"}}
+    },"additionalProperties":false}}
+  },
+  "$defs":{"node":{"type":"object","required":["id","type","path","description","purpose","retrieval_hint","status","last_scanned"],"properties":{
+    "id":{"type":"string"},"type":{"type":"string"},"path":{"type":"string"},"description":{"type":"string"},"purpose":{"type":"string"},"retrieval_hint":{"type":"string"},"status":{"enum":["ACTIVE","CHANGED","MISSING","STALE","UNKNOWN"]},"tags":{"type":"array","items":{"type":"string"}},"content_hash":{"type":"string"},"last_scanned":{"type":"string"},"evidence_ids":{"type":"array","items":{"type":"string"}}
+  },"additionalProperties":false}}
+}

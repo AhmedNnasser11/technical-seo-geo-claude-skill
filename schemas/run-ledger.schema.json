@@ -1,0 +1,26 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/technical-seo-geo/run-ledger.schema.json",
+  "title":"Technical SEO GEO Temporary Run Ledger",
+  "description":"Schema only. This state is temporary and must live outside the project repository.",
+  "type":"object",
+  "required":["schema_version","run_id","started_at","domains","source_frontiers","runtime_gate","cleanup"],
+  "properties":{
+    "schema_version":{"type":"string"},
+    "run_id":{"type":"string","minLength":1},
+    "started_at":{"type":"string"},
+    "domains":{"type":"array","items":{"type":"object","required":["id","status","required","evidence_ids"],"properties":{
+      "id":{"type":"string"},"status":{"enum":["PENDING","IN_PROGRESS","PASS","ISSUES_FOUND","NOT_APPLICABLE","BLOCKED_AFTER_RETRY","USER_DECLINED"]},"required":{"type":"boolean"},"evidence_ids":{"type":"array","items":{"type":"string"}},"recovery_ids":{"type":"array","items":{"type":"string"}}
+    },"additionalProperties":false}},
+    "source_frontiers":{"type":"array","items":{"type":"object","required":["family_id","status","queue_size","visited_count"],"properties":{
+      "family_id":{"type":"string"},"status":{"enum":["PENDING","IN_PROGRESS","EXHAUSTED","BLOCKED_AFTER_RETRY"]},"queue_size":{"type":"integer","minimum":0},"visited_count":{"type":"integer","minimum":0},"rejected_count":{"type":"integer","minimum":0}
+    },"additionalProperties":false}},
+    "runtime_gate":{"type":"object","required":["status","asked_once"],"properties":{
+      "status":{"enum":["NOT_READY","READY_TO_ASK","USER_DECLINED","APPROVED","COMPLETED","BLOCKED_AFTER_RETRY"]},"asked_once":{"type":"boolean"},"consent_record":{"type":"string"}
+    },"additionalProperties":false},
+    "cleanup":{"type":"object","required":["temp_root","persistent_paths_protected"],"properties":{
+      "temp_root":{"type":"string"},"persistent_paths_protected":{"type":"array","items":{"type":"string"}},"completed":{"type":"boolean"}
+    },"additionalProperties":false}
+  },
+  "additionalProperties":false
+}

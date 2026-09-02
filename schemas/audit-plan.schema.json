@@ -1,0 +1,28 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://example.invalid/technical-seo-geo/audit-plan.schema.json",
+  "title":"Technical SEO GEO Audit Plan",
+  "type":"object",
+  "required":["schema_version","run_id","domains","runtime_gate"],
+  "properties":{
+    "schema_version":{"type":"string"},
+    "run_id":{"type":"string","minLength":1},
+    "domains":{"type":"array","items":{"$ref":"#/$defs/domain"},"minItems":1},
+    "runtime_gate":{"type":"object","required":["status","asked_once"],"properties":{
+      "status":{"enum":["NOT_READY","READY_TO_ASK","USER_DECLINED","APPROVED","COMPLETED","BLOCKED_AFTER_RETRY"]},
+      "asked_once":{"type":"boolean"},
+      "consent_timestamp":{"type":"string"}
+    },"additionalProperties":false}
+  },
+  "$defs":{
+    "domain":{"type":"object","required":["id","required","applicability","status"],"properties":{
+      "id":{"type":"string"},
+      "required":{"type":"boolean"},
+      "applicability":{"enum":["APPLICABLE","NOT_APPLICABLE","UNKNOWN"]},
+      "status":{"enum":["PENDING","IN_PROGRESS","PASS","ISSUES_FOUND","NOT_APPLICABLE","BLOCKED_AFTER_RETRY","USER_DECLINED"]},
+      "source_status":{"enum":["PENDING","VERIFIED","BLOCKED_AFTER_RETRY"]},
+      "evidence_ids":{"type":"array","items":{"type":"string"}},
+      "recovery":{"type":"array","items":{"type":"string"}}
+    },"additionalProperties":false}
+  }
+}
