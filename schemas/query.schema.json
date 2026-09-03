@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Retrieval Query Task","type":"object",
+  "required":["query_id","class","query","generated_from","rationale","freshness_required","requires_open","priority"],
+  "properties":{
+    "query_id":{"type":"string"},"class":{"type":"string"},"query":{"type":"string"},
+    "generated_from":{"type":"string"},"domain":{"type":["string","null"]},"rationale":{"type":"string"},
+    "preferred_domains":{"type":"array","items":{"type":"string"}},"freshness_required":{"type":"boolean"},
+    "requires_open":{"type":"boolean"},"priority":{"type":"integer"}
+  }
+}

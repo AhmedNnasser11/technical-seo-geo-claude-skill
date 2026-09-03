@@ -1,0 +1,12 @@
+{
+  "schema_version":"1.0",
+  "rules": {
+    "search_snippet_is_evidence": false,
+    "opened_source_required_for_claim": true,
+    "primary_source_preferred": true,
+    "current_claim_requires_current_retrieval": true,
+    "conflict_requires_explicit_resolution": true,
+    "web_search_role": ["discovery","corroboration","ambiguity_resolution","emerging_information"],
+    "structured_sources_role": ["exact_applicability","version_matching","canonical_identifiers","normative_facts"]
+  }
+}

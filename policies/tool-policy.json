@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "rules": [
+    {"tool":"repo.read","network":false,"write":false,"trust":"trusted_tool"},
+    {"tool":"repo.search","network":false,"write":false,"trust":"trusted_tool"},
+    {"tool":"web.search","network":true,"write":false,"egress":"approved_search_provider"},
+    {"tool":"web.open","network":true,"write":false,"egress":"approved_domains_only"},
+    {"tool":"source.api","network":true,"write":false,"egress":"source_registry_allowlist"},
+    {"tool":"static.validate","network":false,"write":false,"sandbox":"required"},
+    {"tool":"runtime.verify","network":true,"write":false,"sandbox":"required","approval":"required"},
+    {"tool":"patch.apply","network":false,"write":true,"policy":"autonomy-tier-gate"},
+    {"tool":"production.action","network":true,"write":true,"policy":"NEVER_AUTOMATE"}
+  ]
+}

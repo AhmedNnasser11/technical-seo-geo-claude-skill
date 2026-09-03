@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"Remediation","type":"object",
+  "required":["id","finding_id","tier","scope","verification_required"],
+  "properties":{
+    "id":{"type":"string"},"finding_id":{"type":"string"},
+    "tier":{"enum":["READ_ONLY","AUTO_FIX_SAFE","APPROVAL_REQUIRED","NEVER_AUTOMATE"]},
+    "scope":{"type":"array","items":{"type":"string"}},"verification_required":{"type":"boolean"},
+    "approval":{"type":["string","null"]},"rollback_plan":{"type":["string","null"]}
+  }
+}

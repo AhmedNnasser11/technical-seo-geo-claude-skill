@@ -40,3 +40,13 @@
 - On-demand domain reference loading.
 - Retry/recovery and no-early-stop behavior.
 - Runtime consent requirement.
+
+## 3.0.0 — Hybrid Agent Architecture Upgrade
+
+- Added single-orchestrator/deterministic-pipeline architecture contract.
+- Added trust-boundary and hostile-repository rules.
+- Added tool and source policy files.
+- Added provider-neutral external web-search/open contracts with provenance.
+- Added dynamic retrieval/query-planner contract.
+- Added remediation autonomy tiers and verification schema.
+- Added evaluation and adversarial fixture guidance.

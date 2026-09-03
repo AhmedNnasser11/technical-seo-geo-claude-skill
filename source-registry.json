@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "3.0",
   "authority_tiers": [
     {
       "tier": 1,
@@ -231,6 +231,15 @@
           "url": "https://schema.org/docs/schemas.html"
         }
       ]
+    },
+    {
+      "id": "trusted-web-search",
+      "authority_tier": 3,
+      "description": "Dynamic discovery layer bound at runtime to an approved web search provider such as Exa. Search results are leads, not evidence.",
+      "retrieval_hint": "Use only for current/ambiguous/emerging claims, exploit/behavior context, conflict resolution, or discovery when structured sources are insufficient. Always open material sources and preserve query/result provenance.",
+      "provider": "configurable",
+      "requires_open": true,
+      "seeds": []
     }
   ]
 }

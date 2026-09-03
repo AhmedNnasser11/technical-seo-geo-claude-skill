@@ -40,3 +40,9 @@ The source registry also tracks current framework/security sources. For example,
 Runtime verification is never started automatically. Static validation must finish first, then the skill asks once for explicit permission before starting servers, browsers, live HTTP/API checks, or runtime crawling.
 
 The package also includes `scripts/cleanup-run.py`, a path-constrained helper for removing one temporary run directory. It refuses to delete the temp namespace root or paths containing protected project-state directories.
+
+## 3.0 agent architecture upgrade
+
+This release adopts a hybrid architecture: one orchestrator LLM over deterministic tools. The repository is explicitly untrusted input. External web search is a discovery/corroboration layer; material claims require opening the canonical source and preserving provenance.
+
+Provider integrations are runtime-configurable. The package does not hard-code an Exa API key or pretend that a search provider is available when the host runtime has not supplied one.

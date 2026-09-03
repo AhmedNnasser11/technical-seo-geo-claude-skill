@@ -1,0 +1,11 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"Verification Record","type":"object",
+  "required":["id","finding_id","status","checks"],
+  "properties":{
+    "id":{"type":"string"},"finding_id":{"type":"string"},
+    "status":{"enum":["NOT_RUN","RUNNING","PASSED","FAILED","BLOCKED"]},
+    "checks":{"type":"array","items":{"type":"object"}},
+    "runtime_consent":{"enum":["NOT_REQUESTED","PENDING","YES","NO"]},
+    "evidence_ids":{"type":"array","items":{"type":"string"}}
+  }
+}

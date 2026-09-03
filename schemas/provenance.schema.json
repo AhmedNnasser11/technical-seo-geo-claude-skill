@@ -1,0 +1,10 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","title":"Provenance","type":"object",
+  "required":["id","kind","source","retrieved_at","integrity"],
+  "properties":{
+    "id":{"type":"string"},"kind":{"enum":["PROJECT","SOURCE","EXECUTION","DECISION"]},
+    "source":{"type":"string"},"url":{"type":["string","null"]},"query":{"type":["string","null"]},
+    "retrieved_at":{"type":"string"},"content_hash":{"type":["string","null"]},
+    "integrity":{"type":"string"},"evidence_summary":{"type":"string"}
+  }
+}

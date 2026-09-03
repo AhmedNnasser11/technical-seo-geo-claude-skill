@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "default_mode": "READ_ONLY",
+  "tiers": {
+    "READ_ONLY": {"write": false, "runtime": false, "network": "approved_sources_only"},
+    "AUTO_FIX_SAFE": {"write": true, "runtime": false, "conditions": ["localized", "reversible", "deterministic", "no_business_semantics_change", "validation_passes"]},
+    "APPROVAL_REQUIRED": {"write": true, "approval": "explicit_user_or_pr_merge", "conditions": ["minimal_diff", "verification_required"]},
+    "NEVER_AUTOMATE": {"write": false, "approval": "not_sufficient", "categories": ["destructive", "production_infrastructure", "secrets", "dns", "domain_migration", "bulk_content_deletion"]}
+  }
+}
