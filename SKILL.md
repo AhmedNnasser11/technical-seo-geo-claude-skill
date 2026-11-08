@@ -19,7 +19,7 @@ Full rules live in `references/execution-contract.md`. Read the relevant section
 6. **Fix safely (only what the user asked for).** Read the real files, check the current rule, make the smallest change, review `git diff` on touched paths. Mark `FIXED` once the change exists; mark `VERIFIED` only after post-change evidence.
 7. **Static validation.** Run available lint, typecheck, build and tests, recording each separately. A passing build does not prove SEO, security or accessibility.
 8. **Runtime consent.** Ask once: "Static validation is complete. Do you want live/runtime verification (dev server, HTTP checks, browser)? (yes/no)". Without a yes, start no servers, browsers or live probes, and make no runtime claims.
-9. **Re-audit and report.** Re-check changed and adjacent surfaces. Compare final `git status` with the baseline and flag unrelated changes.
+9. **Re-audit and report.** Re-check changed and adjacent surfaces. Compare final `git status` with the baseline and flag unrelated changes. Keep run state outside the repo as `ledger.json`, `plan.json`, `evidence.jsonl` and `findings.jsonl`, and before the final report run `python scripts/validate-run-state.py <run-dir> --final --project-root <repo>`; fix everything it reports.
 
 ## Hard rules
 
@@ -34,4 +34,4 @@ Scope and stack; source coverage (including partial or blocked); domain status t
 
 ## Package map
 
-`references/execution-contract.md` (full rules) · `audit-manifest.json` · `source-registry.json` · `domains/` · `schemas/` · `policies/` · `engines/` · `KNOWLEDGE-INDEX.md` · `PROJECT-KNOWLEDGE-ARCHITECTURE.md` · `scripts/validate-package.py` · `scripts/cleanup-run.py`
+`references/execution-contract.md` (full rules) · `audit-manifest.json` · `source-registry.json` · `domains/` · `schemas/` · `policies/` · `engines/` · `KNOWLEDGE-INDEX.md` · `PROJECT-KNOWLEDGE-ARCHITECTURE.md` · `scripts/validate-package.py` · `scripts/cleanup-run.py` · `scripts/validate-run-state.py`
