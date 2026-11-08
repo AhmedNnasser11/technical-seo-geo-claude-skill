@@ -1,6 +1,6 @@
 # Technical SEO / GEO Claude Skill — Production Architecture
 
-Version: 2.0.0
+Version: 3.1.0
 
 This package is an evidence-driven Claude skill for auditing and safely improving modern Next.js websites across technical SEO, GEO/AEO/AI Search, metadata, structured data, internal linking, performance, security, accessibility, and ecommerce.
 
@@ -17,7 +17,8 @@ The graphs are indexes/navigation aids, not replacements for live project files 
 
 ## Package map
 
-- `SKILL.md` — execution contract and state machine.
+- `SKILL.md` — short skill entry point (frontmatter and workflow).
+- `references/execution-contract.md` — full execution rules, loaded on demand.
 - `KNOWLEDGE-INDEX.md` — minimal entry point for agents.
 - `PROJECT-KNOWLEDGE-ARCHITECTURE.md` — persistence/retrieval design.
 - `PROJECT-LOCAL-STEPS.md` — concise runbook to install in a project when absent.
@@ -33,7 +34,7 @@ The graphs are indexes/navigation aids, not replacements for live project files 
 
 Bundled references are baseline knowledge only. Applicable rules must be rechecked against current authoritative sources during the audit. Google Search currently documents AI Overviews/AI Mode as using the same foundational SEO requirements, with no special AI-only technical requirement; this skill therefore treats GEO/AEO as a retrieval/content-quality analysis layer rather than as a set of guaranteed ranking tricks.
 
-The source registry also tracks current framework/security sources. For example, Next.js published an August 2026 security release for 16.3.3 and 15.5.24, so version-sensitive security checks must inspect the project's installed version and current release/security guidance.
+The source registry also tracks current framework/security sources. Version-sensitive security checks must inspect the project's installed version and the current release/security guidance fetched during the run, not versions quoted in this package.
 
 ## Important safety behavior
 
@@ -45,4 +46,12 @@ The package also includes `scripts/cleanup-run.py`, a path-constrained helper fo
 
 This release adopts a hybrid architecture: one orchestrator LLM over deterministic tools. The repository is explicitly untrusted input. External web search is a discovery/corroboration layer; material claims require opening the canonical source and preserving provenance.
 
-Provider integrations are runtime-configurable. The package does not hard-code an Exa API key or pretend that a search provider is available when the host runtime has not supplied one.
+Provider integrations are runtime-configurable. The package never assumes a search provider; if the host supplies none, source refresh is recorded as blocked.
+
+## Scope
+
+Targets Next.js projects (App Router and Pages Router). For other stacks only framework-independent domains apply.
+
+## Persistence
+
+Writing `.claude/technical-seo-geo/` into a target project is opt-in.
