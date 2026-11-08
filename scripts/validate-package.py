@@ -27,9 +27,11 @@ def require(path: str) -> None:
 def check_no_forbidden() -> None:
     forbidden = {"run-ledger-template.md"}
     for p in ROOT.rglob("*"):
+        if p.relative_to(ROOT).parts[0] == ".git":
+            continue
         if p.is_file() and p.name in forbidden:
             ERRORS.append(f"Forbidden runtime artifact present: {p.relative_to(ROOT)}")
-        if p.name.startswith(".git"):
+        if p.name.startswith(".git") and p.name not in {".gitignore", ".gitattributes"}:
             ERRORS.append(f"Git artifact present: {p.relative_to(ROOT)}")
 
 
@@ -83,6 +85,23 @@ def check_manifest() -> None:
                 ERRORS.append(f"Domain {did} missing manifest field: {key}")
 
 
+def check_skill_md() -> None:
+    path = ROOT / "SKILL.md"
+    text = path.read_text(encoding="utf-8") if path.is_file() else ""
+    m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+    if not m:
+        ERRORS.append("SKILL.md is missing YAML frontmatter")
+    else:
+        for key in ("name", "description"):
+            if not re.search(rf"^{key}:\s*\S", m.group(1), re.M):
+                ERRORS.append(f"SKILL.md frontmatter missing: {key}")
+    if len(text.encode("utf-8")) > 8000:
+        ERRORS.append("SKILL.md exceeds 8000 bytes; move detail into references/")
+
+def check_policy_json() -> None:
+    for path in (ROOT / "policies").glob("*.json"):
+        load_json(path)
+
 def check_schema_json() -> None:
     for path in (ROOT / "schemas").glob("*.schema.json"):
         load_json(path)
@@ -96,6 +115,8 @@ def main() -> int:
     for path in required:
         require(path)
     check_no_forbidden()
+    check_skill_md()
+    check_policy_json()
     check_schema_json()
     check_manifest()
     check_registry()
