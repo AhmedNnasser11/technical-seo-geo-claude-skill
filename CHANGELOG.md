@@ -8,6 +8,8 @@
 - Clarified that gates without a script are procedural; made knowledge-layer writes opt-in.
 - Scoped the skill explicitly to Next.js; removed hard-coded release numbers and provider-specific wording.
 - Validator now checks frontmatter, `SKILL.md` size, and parses policy JSON.
+- Added `scripts/validate-run-state.py`: validates temporary run state (ledger, plan, evidence, findings) against the schemas, with a `--final` completeness-gate check.
+- Fixed the duplicate `# Changelog` heading.
 
 ## 2.0.1 — Source Refresh Hard Gate
 
@@ -16,8 +18,6 @@
 - Added explicit `NO_EXTERNAL_SOURCE_TOOL_AVAILABLE` blocked state.
 - Added current-run retrieval evidence requirements and anti-false-pass rules.
 - Extended source graph nodes with retrieval state so freshness cannot be inferred from stale timestamps alone.
-
-# Changelog
 
 ## 2.0.0 — Production architecture
 
