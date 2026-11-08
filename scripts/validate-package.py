@@ -110,7 +110,7 @@ def check_schema_json() -> None:
 def main() -> int:
     required = [
         "SKILL.md", "README.md", "KNOWLEDGE-INDEX.md", "PROJECT-KNOWLEDGE-ARCHITECTURE.md",
-        "PROJECT-LOCAL-STEPS.md", "CHANGELOG.md", "MIGRATION.md", "audit-manifest.json", "source-registry.json"
+        "PROJECT-LOCAL-STEPS.md", "CHANGELOG.md", "MIGRATION.md", "audit-manifest.json", "source-registry.json", "scripts/validate-run-state.py"
     ]
     for path in required:
         require(path)
