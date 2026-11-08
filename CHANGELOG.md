@@ -1,3 +1,14 @@
+# Changelog
+
+## 3.1.0 — Skill packaging and usability fixes
+
+- Added YAML frontmatter (`name`, `description`) to `SKILL.md` so the skill is discoverable.
+- Reduced `SKILL.md` to a short workflow; full rules moved to `references/execution-contract.md`.
+- Capped source-frontier crawling (8 pages/family, 40/run, 2 hops) with a `PASS_PARTIAL` status.
+- Clarified that gates without a script are procedural; made knowledge-layer writes opt-in.
+- Scoped the skill explicitly to Next.js; removed hard-coded release numbers and provider-specific wording.
+- Validator now checks frontmatter, `SKILL.md` size, and parses policy JSON.
+
 ## 2.0.1 — Source Refresh Hard Gate
 
 - Added a hard external-retrieval gate for SOURCE_REFRESH.
